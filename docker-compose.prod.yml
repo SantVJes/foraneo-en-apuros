@@ -1,0 +1,63 @@
+# Producción en TU servidor (una compu o VPS con Docker), sin abrir puertos en tu módem:
+# Cloudflare Tunnel saca la API a internet con https. La web (Next.js) va en Cloudflare Pages.
+#
+#   cp .env.prod.example .env.prod   # y llena los valores
+#   docker compose -f docker-compose.prod.yml --env-file .env.prod up -d --build
+#
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: cartwise
+      POSTGRES_USER: cartwise
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Pon POSTGRES_PASSWORD en .env.prod}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cartwise -d cartwise"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    # Sin "ports": la base de datos no se ve desde fuera del servidor.
+
+  api:
+    build: .
+    restart: unless-stopped
+    env_file: .env.prod
+    environment:
+      DJANGO_DEBUG: "0"
+      POSTGRES_HOST: db
+      POSTGRES_PORT: "5432"
+      POSTGRES_DB: cartwise
+      POSTGRES_USER: cartwise
+      CARGAR_DATOS_DEMO: si_vacio
+    depends_on:
+      db:
+        condition: service_healthy
+    # Sin "ports": solo el túnel llega a la API.
+
+  tunel:
+    image: cloudflare/cloudflared:2024.12.2
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN:?Pon CLOUDFLARE_TUNNEL_TOKEN en .env.prod}
+    depends_on:
+      - api
+
+  respaldo:
+    # Copia de la base de datos cada noche en ./respaldos (un archivo por día de la semana: guarda 7).
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ./respaldos:/respaldos
+    entrypoint: ["sh", "-c", "while true; do pg_dump -h db -U cartwise cartwise | gzip > /respaldos/cartwise-$$(date +%a).sql.gz; sleep 86400; done"]
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgres_data:

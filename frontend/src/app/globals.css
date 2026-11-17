@@ -1,0 +1,407 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Cartwise: tokens de shadcn con la paleta propia.
+   nopal = acción, mango = etiquetas de precio, jamaica = alertas, papel = fondo con un toque verde. */
+:root {
+  --radius: 0.875rem;
+  --background: #f3f6f1;
+  --foreground: #16201a;
+  --card: #ffffff;
+  --card-foreground: #16201a;
+  --popover: #ffffff;
+  --popover-foreground: #16201a;
+  --primary: #1b7d44;
+  --primary-foreground: #ffffff;
+  --secondary: #e6ece4;
+  --secondary-foreground: #16201a;
+  --muted: #e6ece4;
+  --muted-foreground: #4b5a50;
+  --accent: #dcf0e2;
+  --accent-foreground: #16201a;
+  --accent-texto: #145c32;
+  --destructive: #c2255c;
+  --destructive-soft: #fbe3ec;
+  --border: #d3dccf;
+  --input: #d3dccf;
+  --ring: #1b7d44;
+  --mango: #ffc83d;
+  --mango-foreground: #2a2000;
+  --mango-text: #7a5800;
+  --ticket: #fffdf8;
+  --cena: #5a4bb5;
+  --cena-texto: #ffffff;
+  --madera: color-mix(in srgb, #7a5800 45%, #ffffff);
+}
+
+.dark {
+  /* Oscuro "pizarra" (como Duolingo): gris azulado neutro, nunca café ni verdoso.
+     Cada capa es más clara que la de atrás, colores un poco más suaves que en claro, texto blanco roto. */
+  --background: #131f24;
+  --foreground: #f1f7fb;
+  --card: #1b2b32;
+  --card-foreground: #f1f7fb;
+  --popover: #22353d;
+  --popover-foreground: #f1f7fb;
+  /* Rellenos (botones, chips activos) en verde profundo con letra blanca, como Duolingo.
+     El texto y los iconos verdes usan --accent-texto, que es claro y se lee sobre el fondo. */
+  --primary: #1d9152;
+  --primary-foreground: #ffffff;
+  --secondary: #22353d;
+  --secondary-foreground: #f1f7fb;
+  --muted: #22353d;
+  --muted-foreground: #a3b6bf;
+  --accent: #1a3a30;
+  --accent-foreground: #f1f7fb;
+  --accent-texto: #8ee3b3;
+  --destructive: #ff8aa8;
+  --destructive-soft: #3a1f2b;
+  --border: #2f434c;
+  --input: #3a515b;
+  --ring: #5ccf8a;
+  --mango: #f8c94a;
+  --mango-foreground: #251b00;
+  --mango-text: #f8d06e;
+  --ticket: #1b2b32;
+  --cena: #b9aef7;
+  --cena-texto: #1a1240;
+  --madera: #5a4632;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --font-sans: "Figtree", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Bricolage Grotesque", "Arial Black", ui-sans-serif, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --radius-sm: calc(var(--radius) - 6px);
+  --radius-md: calc(var(--radius) - 4px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-texto: var(--accent-texto);
+  --color-destructive: var(--destructive);
+  --color-destructive-soft: var(--destructive-soft);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-mango: var(--mango);
+  --color-mango-foreground: var(--mango-foreground);
+  --color-mango-text: var(--mango-text);
+  --color-ticket: var(--ticket);
+}
+
+@layer base {
+  * { @apply border-border outline-ring/50; }
+  body { @apply bg-background text-foreground font-sans antialiased; line-height: 1.5; }
+  .font-mono { font-variant-numeric: tabular-nums; }
+  :focus-visible { outline: 3px solid var(--ring); outline-offset: 2px; }
+  h1, h2, h3 { @apply font-display tracking-tight text-balance; }
+  /* Que ningún texto se salga de su caja, aunque la letra sea más ancha (dislexia, grande). */
+  .grid > * { min-width: 0; }
+  body { overflow-wrap: break-word; }
+  button, label { overflow-wrap: break-word; hyphens: auto; }
+}
+
+/* Detalles de ticket de súper */
+.ticket-borde {
+  background-image: radial-gradient(circle at 8px -2px, transparent 7px, var(--ticket) 7.5px);
+  background-size: 16px 10px;
+  background-repeat: repeat-x;
+  height: 10px;
+}
+
+/* ---------- Movimiento
+   Todo se apaga si la persona pidió menos movimiento en su teléfono. */
+
+/* Degradado de fondo que cambia mientras bajas: arriba verde nopal, abajo mango */
+.fondo-degradado {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(60rem 40rem at var(--dx, 15%) var(--dy, -10%), color-mix(in srgb, var(--primary) 10%, transparent), transparent 70%),
+    radial-gradient(50rem 36rem at calc(100% - var(--dx, 15%)) calc(110% - var(--dy, -10%)), color-mix(in srgb, var(--mango) 14%, transparent), transparent 70%),
+    var(--background);
+}
+/* En oscuro el mango encima del fondo se ve café y sucio: solo queda un brillo verde muy suave arriba. */
+.dark .fondo-degradado {
+  background: radial-gradient(40rem 26rem at var(--dx, 15%) var(--dy, -10%), color-mix(in srgb, var(--primary) 6%, transparent), transparent 70%), var(--background);
+}
+@property --dx { syntax: "<percentage>"; inherits: false; initial-value: 15%; }
+@property --dy { syntax: "<percentage>"; inherits: false; initial-value: -10%; }
+@keyframes mover-degradado {
+  from { --dx: 15%; --dy: -10%; }
+  50% { --dx: 70%; --dy: 30%; }
+  to { --dx: 90%; --dy: 80%; }
+}
+@supports (animation-timeline: scroll()) {
+  .fondo-degradado {
+    animation: mover-degradado linear both;
+    animation-timeline: scroll(root block);
+  }
+}
+
+/* Entrada de cada pantalla y de las tarjetas, una tras otra */
+@keyframes entrar {
+  from { opacity: 0; transform: translateY(14px) scale(0.985); }
+  to { opacity: 1; transform: none; }
+}
+.entrar-pantalla { animation: entrar 0.42s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.entrar-lista > * { animation: entrar 0.38s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.entrar-lista > *:nth-child(2) { animation-delay: 40ms; }
+.entrar-lista > *:nth-child(3) { animation-delay: 80ms; }
+.entrar-lista > *:nth-child(4) { animation-delay: 120ms; }
+.entrar-lista > *:nth-child(5) { animation-delay: 160ms; }
+.entrar-lista > *:nth-child(6) { animation-delay: 200ms; }
+.entrar-lista > *:nth-child(7) { animation-delay: 240ms; }
+.entrar-lista > *:nth-child(n + 8) { animation-delay: 280ms; }
+
+/* Cuando cambia una cantidad: brinca y se pinta un instante */
+@keyframes brinco {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.18); color: var(--primary); }
+  100% { transform: scale(1); }
+}
+.brinco { display: inline-block; animation: brinco 0.45s cubic-bezier(0.3, 1.6, 0.5, 1); }
+
+/* Algo recién agregado: aparece y se ilumina */
+@keyframes recien {
+  0% { opacity: 0; transform: translateY(-8px) scale(0.96); background-color: color-mix(in srgb, var(--mango) 45%, var(--card)); }
+  40% { opacity: 1; transform: none; }
+  100% { background-color: var(--card); }
+}
+.recien { animation: recien 1.2s ease-out both; }
+
+/* Las barras de progreso crecen */
+@keyframes crecer { from { transform: scaleX(0); } }
+.crecer { transform-origin: left; animation: crecer 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fondo-degradado, .entrar-pantalla, .entrar-lista > *, .brinco, .recien, .crecer { animation: none !important; }
+}
+
+/* ---------- Pantallas plegables (dos pantallas o con bisagra)
+   En un teléfono abierto a lo ancho, cada mitad de la pantalla lleva su columna y nada queda en la bisagra. */
+@media (horizontal-viewport-segments: 2) {
+  .pagina {
+    grid-template-columns: calc(env(viewport-segment-width 0 0) - 2rem) calc(env(viewport-segment-width 1 0) - 2rem);
+    column-gap: calc(env(viewport-segment-left 1 0) - env(viewport-segment-right 0 0) + 2rem);
+    padding-inline: 1rem;
+    align-items: start;
+  }
+  .contenido-plegable { max-width: none; padding-inline: 0; }
+}
+/* Doblado como laptop: arriba se lee, abajo quedan los controles */
+@media (vertical-viewport-segments: 2) {
+  .pagina { row-gap: calc(env(viewport-segment-top 0 1) - env(viewport-segment-bottom 0 0) + 1.5rem); }
+}
+
+@keyframes dibujar { to { stroke-dashoffset: 0; } }
+@keyframes llenar { from { height: 0; } }
+.llenar { animation: llenar 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+@media (prefers-reduced-motion: reduce) { .llenar { animation: none; } }
+
+/* ---------- Cómo prefieres leer (se elige en Yo o al crear la cuenta; se guarda en este teléfono)
+   dislexia: Lexend, más espacio entre letras, palabras y renglones, sin MAYÚSCULAS decorativas.
+   clara: Atkinson Hyperlegible, letras que no se confunden (I l 1, O 0).
+   grande: todo un poco más grande. */
+html[data-letra="dislexia"] body, html[data-letra="dislexia"] body * {
+  font-family: "Lexend", ui-sans-serif, system-ui, sans-serif !important;
+  letter-spacing: 0.03em !important;
+  word-spacing: 0.14em;
+  font-style: normal !important;
+}
+html[data-letra="dislexia"] body { line-height: 1.75; }
+html[data-letra="dislexia"] p, html[data-letra="dislexia"] li { line-height: 1.8; max-width: 62ch; }
+html[data-letra="dislexia"] .uppercase { text-transform: none; font-size: 0.85rem; }
+html[data-letra="dislexia"] h1, html[data-letra="dislexia"] h2 { line-height: 1.25; }
+html[data-letra="clara"] body, html[data-letra="clara"] body * {
+  font-family: "Atkinson Hyperlegible", ui-sans-serif, system-ui, sans-serif !important;
+  font-style: normal !important;
+}
+html[data-letra="clara"] body { letter-spacing: 0.01em; }
+html[data-grande="1"] { font-size: 112.5%; }
+
+/* ---------- Alacena */
+/* Algo que quitas: se desliza a un lado y el hueco se cierra */
+@keyframes salir {
+  0% { opacity: 1; transform: none; max-height: 6rem; }
+  60% { opacity: 0; transform: translateX(28px); max-height: 6rem; }
+  100% { opacity: 0; transform: translateX(28px); max-height: 0; padding-block: 0; }
+}
+.salir { animation: salir 0.36s cubic-bezier(0.4, 0, 0.2, 1) forwards; overflow: hidden; }
+/* El frasco elegido se menea un poquito */
+@keyframes menear {
+  0%, 100% { transform: rotate(0); }
+  25% { transform: rotate(-8deg); }
+  60% { transform: rotate(6deg); }
+}
+.menear { animation: menear 0.5s ease-in-out; }
+/* La superficie del líquido ondea */
+.liquido::before {
+  content: ""; position: absolute; left: -50%; top: -3px; width: 200%; height: 6px;
+  background: radial-gradient(circle at 6px 0, transparent 4px, var(--mango) 4.5px) 0 0 / 12px 6px repeat-x;
+  animation: ola 2.4s linear infinite;
+}
+@keyframes ola { to { transform: translateX(12px); } }
+/* Un básico que ya tienes vuela hacia tu alacena */
+@keyframes volar {
+  0% { transform: none; opacity: 1; }
+  40% { transform: translateY(-6px) scale(1.06); }
+  100% { transform: translateY(18px) scale(0.6); opacity: 0; }
+}
+.volar { animation: volar 0.45s cubic-bezier(0.5, 0, 0.75, 0) forwards; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) {
+  .salir, .menear, .volar, .liquido::before { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+}
+
+/* ---------- Color de la app (Yo → Hazla tuya). Texto blanco sobre el color con contraste AA (≥ 4.5:1). */
+html[data-color="jamaica"] { --primary: #b0245a; --ring: #b0245a; --accent: #f8e1ea; --accent-texto: #8a1c47; }
+html[data-color="talavera"] { --primary: #1f5fae; --ring: #1f5fae; --accent: #dfe9f7; --accent-texto: #184c8c; }
+html[data-color="cempasuchil"] { --primary: #b04a00; --ring: #b04a00; --accent: #fbe6d4; --accent-texto: #8c3b00; }
+html[data-color="uva"] { --primary: #6a3fc0; --ring: #6a3fc0; --accent: #ebe3fa; --accent-texto: #53309a; }
+html[data-color="agave"] { --primary: #0f7473; --ring: #0f7473; --accent: #d9efee; --accent-texto: #0b5958; }
+html.dark[data-color="jamaica"] { --primary: #c2306a; --primary-foreground: #ffffff; --ring: #f27aa6; --accent: #3a1a2b; --accent-texto: #f7a8c5; }
+html.dark[data-color="talavera"] { --primary: #2c6cc0; --primary-foreground: #ffffff; --ring: #7ab0f2; --accent: #17304a; --accent-texto: #a8cbf6; }
+html.dark[data-color="cempasuchil"] { --primary: #b8540c; --primary-foreground: #ffffff; --ring: #f5a05a; --accent: #3a2618; --accent-texto: #f8bd8a; }
+html.dark[data-color="uva"] { --primary: #7247cc; --primary-foreground: #ffffff; --ring: #b49cf5; --accent: #2a2147; --accent-texto: #c9b6fa; }
+html.dark[data-color="agave"] { --primary: #11807e; --primary-foreground: #ffffff; --ring: #6fd6d3; --accent: #133838; --accent-texto: #8ee3e0; }
+
+/* ---------- Entrada (pantalla de inicio) */
+@keyframes caer {
+  0% { opacity: 0; transform: translateY(-60px) rotate(-200deg) scale(0.4); }
+  60% { opacity: 1; transform: translateY(6px) rotate(-4deg) scale(1.08); }
+  80% { transform: translateY(-3px) rotate(-10deg) scale(0.97); }
+  100% { transform: rotate(-8deg); }
+}
+.intro-logo > span:first-child { animation: caer 0.9s cubic-bezier(0.3, 0.7, 0.3, 1) both; }
+.intro-logo > span:last-child { animation: deslizar 0.6s 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+@keyframes deslizar { from { opacity: 0; transform: translateX(-16px); clip-path: inset(0 100% 0 0); } to { opacity: 1; transform: none; clip-path: inset(0 0 0 0); } }
+/* Cada palabra del título sube desde abajo */
+.palabras > span { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.08em; margin-bottom: -0.08em; }
+.palabras > span > span { display: inline-block; animation: subir 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both; animation-delay: calc(0.45s + var(--i) * 70ms); }
+@keyframes subir { from { transform: translateY(105%); } to { transform: none; } }
+/* El resaltado mango se pinta de izquierda a derecha */
+.subrayar {
+  background-image: linear-gradient(color-mix(in srgb, var(--mango) 80%, transparent), color-mix(in srgb, var(--mango) 80%, transparent));
+  background-repeat: no-repeat; background-position: 0 88%; background-size: 0% 38%;
+  animation: pintar 0.6s 1.25s cubic-bezier(0.6, 0, 0.2, 1) forwards;
+}
+@keyframes pintar { to { background-size: 100% 38%; } }
+.aparecer { animation: entrar 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both; animation-delay: var(--d, 0s); }
+/* Ingredientes que flotan de fondo */
+.flotan { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+.flotan > svg { position: absolute; color: var(--primary); opacity: 0.13; animation: flotar 14s ease-in-out infinite, aparecer-suave 1.2s both; }
+.flotan > svg:nth-child(2n) { color: var(--mango-text); animation-duration: 17s, 1.2s; animation-delay: -4s, 0.3s; }
+.flotan > svg:nth-child(3n) { animation-duration: 19s, 1.2s; animation-delay: -9s, 0.6s; }
+@keyframes flotar { 0%, 100% { transform: translate(0, 0) rotate(-8deg); } 50% { transform: translate(14px, -22px) rotate(10deg); } }
+@keyframes aparecer-suave { from { opacity: 0; } }
+
+/* ---------- Telón al entrar: el color de la app se abre en círculo desde el botón */
+.telon { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; background: var(--primary); color: var(--primary-foreground);
+  clip-path: circle(0% at var(--x, 50%) var(--y, 50%)); animation: telon 0.7s cubic-bezier(0.7, 0, 0.2, 1) forwards; }
+@keyframes telon { to { clip-path: circle(150% at var(--x, 50%) var(--y, 50%)); } }
+.telon .sello-fa { animation: pop 0.6s 0.35s cubic-bezier(0.3, 1.6, 0.5, 1) both; }
+.telon p { animation: entrar 0.5s 0.5s both; }
+@keyframes pop { from { transform: scale(0) rotate(-90deg); } to { transform: scale(1) rotate(-8deg); } }
+
+/* ---------- Arranque de la app: el FA rebota y la olla echa vapor */
+@keyframes rebotar { 0%, 100% { transform: translateY(0) rotate(-8deg); } 45% { transform: translateY(-16px) rotate(4deg); } }
+.rebotar { animation: rebotar 0.9s cubic-bezier(0.4, 0, 0.3, 1) infinite; }
+@keyframes vapor { 0% { opacity: 0; transform: translateY(6px) scaleY(0.6); } 40% { opacity: 0.8; } 100% { opacity: 0; transform: translateY(-14px) scaleY(1.1); } }
+.vapor > i { display: block; width: 3px; height: 12px; border-radius: 3px; background: currentColor; animation: vapor 1.4s ease-out infinite; }
+.vapor > i:nth-child(2) { animation-delay: 0.3s; } .vapor > i:nth-child(3) { animation-delay: 0.6s; }
+
+/* ---------- Dentro de la app */
+/* Título de cada pantalla: aparece como cortina */
+.titulo-revela { animation: revelar 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+@keyframes revelar { from { clip-path: inset(0 0 100% 0); transform: translateY(12px); } to { clip-path: inset(0 0 -10% 0); transform: none; } }
+.ceja { animation: deslizar 0.5s 0.1s both; }
+/* Icono de la pestaña que tocas: brinca */
+@keyframes icono-rebote { 0% { transform: scale(1); } 30% { transform: translateY(-5px) scale(1.18) rotate(-8deg); } 60% { transform: scale(0.95); } 100% { transform: translateY(-2px) scale(1.1); } }
+.icono-rebote { animation: icono-rebote 0.5s cubic-bezier(0.3, 1.4, 0.5, 1) both; }
+/* Tachar en la lista: la raya se dibuja */
+.tachable { background-image: linear-gradient(currentColor, currentColor); background-repeat: no-repeat; background-position: 0 55%; background-size: 0% 2px; transition: background-size 0.35s cubic-bezier(0.6, 0, 0.2, 1), color 0.3s; }
+.tachable.tachado { background-size: 100% 2px; color: var(--muted-foreground); }
+.palomita { appearance: none; display: grid; place-items: center; width: 1.35rem; height: 1.35rem; border: 2px solid var(--input); border-radius: 0.4rem; background: var(--card); cursor: pointer; transition: background 0.2s, border-color 0.2s, transform 0.2s; }
+.palomita::after { content: ""; width: 0.4rem; height: 0.75rem; border: solid var(--primary-foreground); border-width: 0 3px 3px 0; transform: translateY(-1px) rotate(45deg) scale(0); transition: transform 0.25s cubic-bezier(0.3, 1.6, 0.5, 1); }
+.palomita:checked { background: var(--primary); border-color: var(--primary); transform: scale(1.08); }
+.palomita:checked::after { transform: translateY(-1px) rotate(45deg) scale(1); }
+.palomita:focus-visible { outline: 3px solid var(--ring); outline-offset: 2px; }
+/* Ticket completo: cae un sello */
+.sello { animation: sellar 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) both; }
+@keyframes sellar { from { opacity: 0; transform: scale(2.2) rotate(8deg); } to { opacity: 1; transform: scale(1) rotate(-10deg); } }
+/* Saludo: el sol sale, la luna se mece */
+@keyframes amanecer { from { transform: translateY(8px) rotate(-30deg); opacity: 0; } to { transform: none; opacity: 1; } }
+.amanecer { animation: amanecer 0.8s 0.15s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-logo > span, .palabras > span > span, .subrayar, .aparecer, .flotan > svg, .telon, .telon *, .rebotar, .vapor > i,
+  .titulo-revela, .ceja, .icono-rebote, .sello, .amanecer { animation: none !important; }
+  .subrayar { background-size: 100% 38%; }
+  .telon { clip-path: none; }
+  .tachable, .palomita, .palomita::after { transition: none; }
+}
+
+/* ---- Tema oscuro: detalles ---- */
+.dark body { background-color: var(--background); }
+.dark [data-slot="card"] { box-shadow: none; }
+/* Texto e iconos "verdes" en oscuro: el tono claro, que sí se lee. */
+.dark .text-primary { color: var(--accent-texto); }
+/* Botón principal con borde inferior grueso, como tecla: se siente tocable. */
+.dark [data-slot="button"].bg-primary { box-shadow: 0 3px 0 color-mix(in srgb, var(--primary) 55%, #000); }
+.dark [data-slot="button"].bg-primary:active { box-shadow: 0 1px 0 color-mix(in srgb, var(--primary) 55%, #000); transform: translateY(2px); }
+
+/* Tres fondos oscuros a elegir en Yo, Estilo */
+html.dark[data-oscuro="negro"] { --background: #000000; --card: #1c1c1e; --popover: #2c2c2e; --secondary: #2c2c2e; --muted: #2c2c2e; --border: #38383a; --input: #48484a; --foreground: #ffffff; --card-foreground: #ffffff; --muted-foreground: #98989f; --ticket: #1c1c1e; --destructive-soft: #3a1820; }
+html.dark[data-oscuro="gris"] { --background: #121212; --card: #1e1e1e; --popover: #2a2a2a; --secondary: #2a2a2a; --muted: #2a2a2a; --border: #333333; --input: #3d3d3d; --foreground: #ececec; --card-foreground: #ececec; --muted-foreground: #a8a8a8; --ticket: #1e1e1e; --destructive-soft: #36191f; }
+
+/* Color de letra elegido en Yo, Estilo */
+html[data-tinta="crema"] { --foreground: #3d2b17; --card-foreground: #3d2b17; --popover-foreground: #3d2b17; --secondary-foreground: #3d2b17; --accent-foreground: #3d2b17; --muted-foreground: #6b5844; }
+html[data-tinta="menta"] { --foreground: #0f3d27; --card-foreground: #0f3d27; --popover-foreground: #0f3d27; --secondary-foreground: #0f3d27; --accent-foreground: #0f3d27; --muted-foreground: #3e6150; }
+html[data-tinta="lila"] { --foreground: #2c1f5c; --card-foreground: #2c1f5c; --popover-foreground: #2c1f5c; --secondary-foreground: #2c1f5c; --accent-foreground: #2c1f5c; --muted-foreground: #5a4f80; }
+html.dark[data-tinta="crema"] { --foreground: #f6ead2; --card-foreground: #f6ead2; --popover-foreground: #f6ead2; --secondary-foreground: #f6ead2; --accent-foreground: #f6ead2; --muted-foreground: #c8b99e; }
+html.dark[data-tinta="menta"] { --foreground: #d3f5e2; --card-foreground: #d3f5e2; --popover-foreground: #d3f5e2; --secondary-foreground: #d3f5e2; --accent-foreground: #d3f5e2; --muted-foreground: #9cc4ae; }
+html.dark[data-tinta="lila"] { --foreground: #e4dcfd; --card-foreground: #e4dcfd; --popover-foreground: #e4dcfd; --secondary-foreground: #e4dcfd; --accent-foreground: #e4dcfd; --muted-foreground: #b3a8d6; }
+
+/* Base fuera de capas: le gana a cualquier estilo que el navegador o quien muestre la página ponga en body
+   (si no, el texto sin clase sale negro y con la letra del sistema). */
+html body { background-color: var(--background); color: var(--foreground); font-family: "Figtree", ui-sans-serif, system-ui, sans-serif; font-size: 1rem; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+html:not(.dark) { color-scheme: light; }
+html.dark { color-scheme: dark; }
+
+/* Esquinas rectas: todo menos redondo */
+html[data-esquinas="rectas"] { --radius: 0.35rem; }
+html[data-esquinas="rectas"] .rounded-full:not([class*="size-1"]):not([class*="size-2"]), html[data-esquinas="rectas"] .rounded-2xl,
+html[data-esquinas="rectas"] .rounded-3xl, html[data-esquinas="rectas"] .rounded-xl { border-radius: 0.5rem; }
+
+/* Sin animaciones, si la persona lo pide en la app */
+html[data-movimiento="no"] *, html[data-movimiento="no"] *::before, html[data-movimiento="no"] *::after {
+  animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; animation-delay: 0s !important; transition-duration: 0.01ms !important;
+}
+.dark ::selection { background: color-mix(in srgb, var(--primary) 40%, transparent); }
+.dark img { filter: brightness(0.92); }
+
+/* Íconos de platillo (en lugar de fotos): cada familia de comida tiene su color. */
+.tono { color: var(--t); background: color-mix(in srgb, var(--t) 15%, var(--card)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t) 22%, transparent); }
+.tono-verde { --t: #1d7a45; } .tono-mango { --t: #a35a00; } .tono-rojo { --t: #c2410c; } .tono-azul { --t: #1d6aa0; } .tono-morado { --t: #6a4cc0; }
+.dark .tono-verde { --t: #6fe0a0; } .dark .tono-mango { --t: #ffc266; } .dark .tono-rojo { --t: #ff9670; } .dark .tono-azul { --t: #82c8fa; } .dark .tono-morado { --t: #c6b6ff; }
+
+/* Modo cocinar: pantalla completa, letra grande. */
+.cocinar-paso { font-size: clamp(1.35rem, 1.1rem + 1.4vw, 1.9rem); line-height: 1.4; }

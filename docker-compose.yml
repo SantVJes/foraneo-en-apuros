@@ -1,0 +1,37 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-cartwise}
+      POSTGRES_USER: ${POSTGRES_USER:-cartwise}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-cartwise}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5432:5432"  # solo desde tu compu, no desde la red
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  web:
+    build: .
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      DJANGO_DEBUG: ${DJANGO_DEBUG:-1}  # en tu compu; en la nube va apagado
+      POSTGRES_HOST: db
+      POSTGRES_PORT: "5432"
+      POSTGRES_DB: ${POSTGRES_DB:-cartwise}
+      POSTGRES_USER: ${POSTGRES_USER:-cartwise}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-cartwise}
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgres_data:

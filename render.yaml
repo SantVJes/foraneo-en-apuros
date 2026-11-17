@@ -1,0 +1,35 @@
+# Render: Nuevo > Blueprint > elige este repositorio.
+# Base de datos y login en Supabase (corre supabase/setup.sql primero). La web va en Cloudflare Pages.
+services:
+  - type: web
+    name: cartwise
+    runtime: docker
+    plan: free
+    healthCheckPath: /
+    envVars:
+      - key: DATABASE_URL
+        sync: false            # session pooler de Supabase con el rol cartwise_app (ver supabase/setup.sql)
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DJANGO_DEBUG
+        value: "0"
+      - key: DJANGO_ALLOWED_HOSTS
+        value: localhost       # Render agrega solo tu dominio .onrender.com
+      - key: SUPABASE_URL
+        sync: false            # https://<proyecto>.supabase.co
+      - key: CORS_ALLOWED_ORIGINS
+        sync: false            # https://cartwise.pages.dev (tu dominio de Cloudflare)
+      - key: AMAZON_AFILIADOS_TAG
+        sync: false
+      - key: PRO_ACTIVO
+        value: "0"             # versión básica: sin Plan Pro; cámbialo a 1 cuando quieras cobrar
+      - key: CARGAR_DATOS_DEMO
+        value: si_vacio        # carga los datos la primera vez; luego arranca rápido
+      - key: IMPORTAR_RECETAS
+        value: "1"
+      - key: IMPORTAR_SI_VACIO
+        value: "1"
+      - key: BUSCAR_SUCURSALES_OSM
+        value: "1"
+      - key: WEB_CONCURRENCY
+        value: "2"

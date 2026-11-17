@@ -1,0 +1,43 @@
+{% load static %}<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Foráneo en apuros</title>
+  <meta name="description" content="Foráneo en apuros: Planea tu semana de comidas, revisa tu alacena y sabe en qué súper cercano te sale más barato.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="{% static 'app/app.css' %}">
+  {% if google_client_id %}<script src="https://accounts.google.com/gsi/client" async defer></script>{% endif %}
+</head>
+<body>
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+  <header class="barra" id="barra" hidden>
+    <div class="barra__dentro">
+      <a class="marca" href="#menu" aria-label="Foráneo en apuros, inicio">
+        <span class="marca__sello" aria-hidden="true">FA</span>
+        <span class="marca__texto">foráneo<br>en apuros</span>
+      </a>
+      <nav class="tabs" aria-label="Secciones">
+        <a href="#menu" data-tab="menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16M4 12h16M4 19h10"/></svg><span>Mi semana</span></a>
+        <a href="#alacena" data-tab="alacena"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10v4H7zM6 7h12v14H6zM9 12h6"/></svg><span>Alacena</span></a>
+        <a href="#lista" data-tab="lista"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h3l2.5 11h10L21 7H7.2"/><circle cx="10" cy="19.5" r="1.4"/><circle cx="17" cy="19.5" r="1.4"/></svg><span>Lista</span></a>
+        <a href="#pro" data-tab="pro"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/></svg><span>Pro</span></a>
+        <a href="#yo" data-tab="yo"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg><span>Yo</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido" class="contenido" tabindex="-1">
+    <div id="vista"></div>
+  </main>
+
+  <div class="aviso" id="aviso" role="status" aria-live="polite" hidden></div>
+  <dialog class="hoja" id="hoja"><div id="hoja-contenido"></div></dialog>
+
+  <script>window.FA_CONFIG = {googleClientId: "{{ google_client_id|escapejs }}"};</script>
+  <script src="{% static 'app/app.js' %}"></script>
+</body>
+</html>

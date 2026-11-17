@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+.env
+db.sqlite3
+staticfiles/
+.venv/
+.env.prod
+respaldos/
+
+# Web y editores
+node_modules/
+.env.local
+.env*.local
+.DS_Store
+.idea/
+.vscode/
