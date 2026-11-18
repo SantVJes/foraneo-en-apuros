@@ -11,6 +11,7 @@ import { ESCENAS, Img3D } from "@/components/img-3d";
 import { Cabeza, Cargando, Etiqueta } from "@/components/app-shell";
 import { IconoPlatillo } from "@/components/icono-platillo";
 import { ModoCocinar } from "@/components/modo-cocinar";
+import { RecetaExplotada } from "@/components/receta-explotada";
 import { PillDificultad } from "@/components/pill-dificultad";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -271,7 +272,10 @@ function Receta({ id, personas, conMeta, onClose, cocinar }: { id: number | null
             </div>
             {p.pasos && <Button size="lg" onClick={() => cocinar(p)}><ChefHat weight="fill" />Cocinar paso a paso</Button>}
             <div className="grid gap-2">
-              <h3 className="text-lg font-bold">Ingredientes <span className="text-sm font-normal text-muted-foreground">(para {personas} {personas === 1 ? "persona" : "personas"})</span></h3>
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <h3 className="text-lg font-bold">Ingredientes <span className="text-sm font-normal text-muted-foreground">(para {personas} {personas === 1 ? "persona" : "personas"})</span></h3>
+                <RecetaExplotada receta={p} />
+              </div>
               <ul className="grid gap-1.5">
                 {p.ingredientes.map((i) => (
                   <li key={i.ingrediente_id} className="flex justify-between gap-3 border-b border-dashed pb-1.5">

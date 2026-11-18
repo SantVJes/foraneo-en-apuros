@@ -12,6 +12,7 @@ import { Cabeza, Cargando, Etiqueta, Vacio } from "@/components/app-shell";
 import { EditorReceta } from "@/components/editor-receta";
 import { IconoPlatillo } from "@/components/icono-platillo";
 import { ModoCocinar } from "@/components/modo-cocinar";
+import { RecetaExplotada } from "@/components/receta-explotada";
 import { PillDificultad } from "@/components/pill-dificultad";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -264,7 +265,10 @@ function Detalle({ r, onClose, guardar, editar, borrada, laCocine, ojo, cocinar,
               {r.es_mia && <Button variant="outline" onClick={() => editar(r)}><PencilSimple />Editar</Button>}
             </div>
             <div className="grid gap-2">
-              <h3 className="text-lg font-bold">Ingredientes</h3>
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <h3 className="text-lg font-bold">Ingredientes</h3>
+                <RecetaExplotada receta={r} />
+              </div>
               <ul className="grid gap-1.5">
                 {r.ingredientes.map((i) => (
                   <li key={i.ingrediente_id} className="flex justify-between gap-3 border-b border-dashed pb-1.5">
