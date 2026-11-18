@@ -1,9 +1,10 @@
 "use client";
 
 import * as React from "react";
-import { Bread, Carrot, Drop, Egg, Fish, ForkKnife, Grains, Jar, MagnifyingGlass, Package, Plus, Warning, X } from "@phosphor-icons/react";
+import {  MagnifyingGlass,  Plus, Warning, X } from "@phosphor-icons/react";
 import { toast } from "sonner";
 
+import { ESCENAS, Img3D } from "@/components/img-3d";
 import { Cabeza, Cargando, Etiqueta, Vacio } from "@/components/app-shell";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -17,9 +18,9 @@ import { useDatos } from "@/lib/datos";
 import type { ArticuloAlacena, Ingrediente } from "@/lib/tipos";
 import { cn } from "@/lib/utils";
 
-const ICONO_CAT: Record<string, typeof Package> = {
-  "Abarrotes": Package, "Básicos": Drop, "Carnes": ForkKnife, "Frutas y verduras": Carrot, "Lácteos y huevo": Egg,
-  "Panadería": Bread, "Pescados y mariscos": Fish, "Salchichonería": ForkKnife, "Tortillería": Grains,
+const IMG_CAT: Record<string, string> = {
+  "Abarrotes": "canned-food", "Básicos": "salt", "Carnes": "cut-of-meat", "Frutas y verduras": "carrot", "Lácteos y huevo": "glass-of-milk",
+  "Panadería": "bread", "Pescados y mariscos": "fish", "Salchichonería": "bacon", "Tortillería": "flatbread",
 };
 
 const NIVEL: Record<string, number> = { lleno: 1, tres_cuartos: 0.75, mitad: 0.5, un_tercio: 0.33, un_cuarto: 0.25, casi_nada: 0.1 };
@@ -98,7 +99,7 @@ export default function Alacena() {
 
   return (
     <div className="pagina grid grid-cols-1 gap-6">
-      <Cabeza etiqueta={`${items.length} ${items.length === 1 ? "cosa" : "cosas"} en casa`} titulo="Tu alacena">Lo que ya tienes. Así no lo compras dos veces.</Cabeza>
+      <Cabeza escena={ESCENAS.alacena} etiqueta={`${items.length} ${items.length === 1 ? "cosa" : "cosas"} en casa`} titulo="Tu alacena">Lo que ya tienes. Así no lo compras dos veces.</Cabeza>
 
       <div className="grid gap-3">
         <div className="flex gap-2">
@@ -139,11 +140,11 @@ export default function Alacena() {
         <div className="grid gap-6">
           {repisas.length === 0 && <p className="text-center text-muted-foreground">No hay nada con “{filtro}”.</p>}
           {repisas.map(([cat, cosas], r) => {
-            const Icono = ICONO_CAT[cat] || Package;
+            const img = IMG_CAT[cat] || "package";
             return (
               <section key={cat} aria-label={cat} className="entrar-pantalla grid gap-2" style={{ animationDelay: `${r * 60}ms` }}>
                 <h2 className="flex items-center gap-2 text-lg font-extrabold">
-                  <Icono className="size-6 text-primary" weight="duotone" aria-hidden />{cat}
+                  <Img3D n={img} className="size-9" />{cat}
                   <span className="font-mono text-xs font-semibold text-muted-foreground">{cosas.length}</span>
                 </h2>
                 <div className="relative">
@@ -174,8 +175,7 @@ export default function Alacena() {
           })}
         </div>
       ) : (
-        <Vacio>
-          <Jar className="size-14 text-primary" weight="duotone" aria-hidden />
+        <Vacio img="jar">
           <p>Tu alacena está vacía. Agrega lo que tengas y te lo descontamos de la lista.</p>
           <Button onClick={() => setAgregando(true)}><Plus />Agregar algo</Button>
         </Vacio>

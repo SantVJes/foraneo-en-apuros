@@ -5,17 +5,17 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex max-w-full items-center justify-center gap-2 text-center whitespace-normal sm:whitespace-nowrap rounded-full text-sm font-semibold transition-all disabled:pointer-events-none disabled:opacity-60 disabled:saturate-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:ring-ring/50 focus-visible:ring-[3px] active:scale-[0.97] motion-reduce:active:scale-100 duration-150",
+  "inline-flex max-w-full items-center justify-center gap-2 text-center whitespace-normal sm:whitespace-nowrap rounded-full text-sm font-semibold transition-all disabled:pointer-events-none disabled:opacity-60 disabled:saturate-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:ring-ring/50 focus-visible:ring-[3px] active:scale-[0.98] motion-reduce:active:scale-100 duration-150",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground shadow-xs hover:brightness-110",
-        destructive: "bg-destructive text-white dark:text-[#2a0714] shadow-xs hover:bg-destructive/90",
-        outline: "border-2 bg-transparent hover:bg-secondary",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        default: "boton-3d text-primary-foreground hover:brightness-110",
+        destructive: "boton-3d boton-3d-jamaica text-white dark:text-[#2a0714] hover:brightness-110",
+        outline: "boton-neutro",
+        secondary: "boton-neutro bg-secondary text-secondary-foreground",
         ghost: "hover:bg-secondary",
         link: "text-primary underline underline-offset-4 decoration-2 rounded-none px-0 h-auto",
-        mango: "bg-mango text-mango-foreground shadow-[inset_0_0_0_2px_var(--foreground)] hover:brightness-105",
+        mango: "boton-3d boton-3d-mango text-mango-foreground hover:brightness-105",
       },
       size: {
         default: "min-h-11 px-5 py-2",

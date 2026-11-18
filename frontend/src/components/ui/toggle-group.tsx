@@ -9,7 +9,7 @@ function ToggleGroup({ className, ...props }: React.ComponentProps<typeof Toggle
   return (
     <ToggleGroupPrimitive.Root
       data-slot="toggle-group"
-      className={cn("grid w-full auto-cols-fr grid-flow-col gap-1 rounded-full bg-secondary p-1 sm:inline-grid sm:w-fit", className)}
+      className={cn("grid w-full auto-cols-fr grid-flow-col gap-1 campo-hundido rounded-full p-1 sm:inline-grid sm:w-fit", className)}
       {...props}
     />
   );
@@ -20,7 +20,7 @@ function ToggleGroupItem({ className, ...props }: React.ComponentProps<typeof To
     <ToggleGroupPrimitive.Item
       data-slot="toggle-group-item"
       className={cn(
-        "min-h-10 rounded-full px-2.5 text-sm font-semibold leading-tight text-muted-foreground outline-none transition-colors focus-visible:ring-[3px] focus-visible:ring-ring/50 data-[state=on]:bg-card data-[state=on]:text-foreground data-[state=on]:shadow-sm",
+        "min-h-10 rounded-full px-2.5 text-sm font-semibold leading-tight text-muted-foreground outline-none transition-colors focus-visible:ring-[3px] focus-visible:ring-ring/50 data-[state=on]:boton-neutro data-[state=on]:text-foreground",
         className,
       )}
       {...props}

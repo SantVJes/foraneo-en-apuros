@@ -39,9 +39,9 @@
 .dark {
   /* Oscuro "pizarra" (como Duolingo): gris azulado neutro, nunca café ni verdoso.
      Cada capa es más clara que la de atrás, colores un poco más suaves que en claro, texto blanco roto. */
-  --background: #131f24;
+  --background: #0f181c;
   --foreground: #f1f7fb;
-  --card: #1b2b32;
+  --card: #1a2a31;
   --card-foreground: #f1f7fb;
   --popover: #22353d;
   --popover-foreground: #f1f7fb;
@@ -141,7 +141,10 @@
 }
 /* En oscuro el mango encima del fondo se ve café y sucio: solo queda un brillo verde muy suave arriba. */
 .dark .fondo-degradado {
-  background: radial-gradient(40rem 26rem at var(--dx, 15%) var(--dy, -10%), color-mix(in srgb, var(--primary) 6%, transparent), transparent 70%), var(--background);
+  background:
+    radial-gradient(40rem 26rem at var(--dx, 15%) var(--dy, -10%), color-mix(in srgb, var(--primary) 12%, transparent), transparent 70%),
+    radial-gradient(34rem 24rem at calc(100% - var(--dx, 15%)) 100%, color-mix(in srgb, var(--cena) 7%, transparent), transparent 70%),
+    var(--background);
 }
 @property --dx { syntax: "<percentage>"; inherits: false; initial-value: 15%; }
 @property --dy { syntax: "<percentage>"; inherits: false; initial-value: -10%; }
@@ -361,12 +364,8 @@ html.dark[data-color="agave"] { --primary: #11807e; --primary-foreground: #fffff
 
 /* ---- Tema oscuro: detalles ---- */
 .dark body { background-color: var(--background); }
-.dark [data-slot="card"] { box-shadow: none; }
 /* Texto e iconos "verdes" en oscuro: el tono claro, que sí se lee. */
 .dark .text-primary { color: var(--accent-texto); }
-/* Botón principal con borde inferior grueso, como tecla: se siente tocable. */
-.dark [data-slot="button"].bg-primary { box-shadow: 0 3px 0 color-mix(in srgb, var(--primary) 55%, #000); }
-.dark [data-slot="button"].bg-primary:active { box-shadow: 0 1px 0 color-mix(in srgb, var(--primary) 55%, #000); transform: translateY(2px); }
 
 /* Tres fondos oscuros a elegir en Yo, Estilo */
 html.dark[data-oscuro="negro"] { --background: #000000; --card: #1c1c1e; --popover: #2c2c2e; --secondary: #2c2c2e; --muted: #2c2c2e; --border: #38383a; --input: #48484a; --foreground: #ffffff; --card-foreground: #ffffff; --muted-foreground: #98989f; --ticket: #1c1c1e; --destructive-soft: #3a1820; }
@@ -399,9 +398,128 @@ html[data-movimiento="no"] *, html[data-movimiento="no"] *::before, html[data-mo
 .dark img { filter: brightness(0.92); }
 
 /* Íconos de platillo (en lugar de fotos): cada familia de comida tiene su color. */
-.tono { color: var(--t); background: color-mix(in srgb, var(--t) 15%, var(--card)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t) 22%, transparent); }
+.tono { color: var(--t); background: radial-gradient(circle at 50% 28%, color-mix(in srgb, var(--t) 34%, var(--card)), color-mix(in srgb, var(--t) 10%, var(--card)) 72%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.18), inset 0 0 0 1px color-mix(in srgb, var(--t) 20%, transparent), 0 3px 0 color-mix(in srgb, var(--t) 18%, transparent); }
 .tono-verde { --t: #1d7a45; } .tono-mango { --t: #a35a00; } .tono-rojo { --t: #c2410c; } .tono-azul { --t: #1d6aa0; } .tono-morado { --t: #6a4cc0; }
 .dark .tono-verde { --t: #6fe0a0; } .dark .tono-mango { --t: #ffc266; } .dark .tono-rojo { --t: #ff9670; } .dark .tono-azul { --t: #82c8fa; } .dark .tono-morado { --t: #c6b6ff; }
 
 /* Modo cocinar: pantalla completa, letra grande. */
 .cocinar-paso { font-size: clamp(1.35rem, 1.1rem + 1.4vw, 1.9rem); line-height: 1.4; }
+
+
+/* =====================================================================
+   Rediseño 3D (noviembre 2026)
+   Superficies con volumen: luz arriba, sombra suave abajo y botones con grosor de tecla.
+   Los objetos 3D son WebP de Fluent Emoji (MIT) en public/3d.
+   ===================================================================== */
+
+/* Superficie elevada: tarjetas, barra de abajo, menús. */
+@utility superficie {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--card) 100%, #fff 0%), color-mix(in srgb, var(--card) 94%, var(--background)));
+  border: 1px solid color-mix(in srgb, var(--border) 55%, transparent);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.85), 0 1px 0 rgb(22 32 26 / 0.04), 0 22px 40px -26px rgb(22 32 26 / 0.45);
+  .dark & {
+    background: linear-gradient(180deg, color-mix(in srgb, var(--card) 92%, #fff 8%), var(--card) 60%);
+    border-color: rgb(255 255 255 / 0.05);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.07), 0 24px 44px -26px rgb(0 0 0 / 0.85);
+  }
+}
+
+/* Botón con grosor: degradado del color de la app y un borde inferior más oscuro. Al tocarlo se hunde. */
+@utility boton-3d {
+  --b: var(--primary);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--b) 82%, #fff 18%), var(--b));
+  box-shadow: inset 0 2px 0 rgb(255 255 255 / 0.25), 0 4px 0 color-mix(in srgb, var(--b) 55%, #000), 0 12px 22px -12px color-mix(in srgb, var(--b) 70%, transparent);
+  transform: translateY(0);
+  &:active:not(:disabled) { transform: translateY(3px); box-shadow: inset 0 2px 0 rgb(255 255 255 / 0.2), 0 1px 0 color-mix(in srgb, var(--b) 55%, #000); }
+}
+@utility boton-3d-mango { --b: #f5b31f; background: linear-gradient(180deg, #ffd96b, #f5b31f); }
+@utility boton-3d-jamaica { --b: var(--destructive); }
+
+/* Botón neutro: misma forma de tecla, sin color. */
+@utility boton-neutro {
+  background: var(--card);
+  border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.9), 0 3px 0 color-mix(in srgb, var(--border) 90%, #000 10%);
+  .dark & {
+    background: color-mix(in srgb, var(--card) 80%, #fff 6%);
+    border-color: rgb(255 255 255 / 0.05);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.08), 0 3px 0 rgb(0 0 0 / 0.55);
+  }
+  &:hover { border-color: color-mix(in srgb, var(--primary) 50%, transparent); }
+  &:active:not(:disabled) { transform: translateY(2px); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.06), 0 1px 0 rgb(0 0 0 / 0.4); }
+}
+
+/* Campo hundido: buscadores, entradas de texto, selector de opciones. */
+@utility campo-hundido {
+  background: color-mix(in srgb, var(--secondary) 75%, var(--background));
+  box-shadow: inset 0 2px 4px rgb(22 32 26 / 0.12), inset 0 0 0 1px color-mix(in srgb, var(--border) 80%, transparent);
+  .dark & { background: color-mix(in srgb, var(--background) 70%, #000); box-shadow: inset 0 2px 5px rgb(0 0 0 / 0.55), inset 0 0 0 1px rgb(255 255 255 / 0.05); }
+}
+
+/* Chip que se prende: sin prender parece una ficha; prendido se hunde y se pinta. */
+@utility chip-3d {
+  background: var(--card);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.8), 0 3px 0 color-mix(in srgb, var(--border) 90%, #000 10%);
+  .dark & { background: color-mix(in srgb, var(--card) 80%, #fff 6%); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.08), 0 3px 0 rgb(0 0 0 / 0.55); }
+  .peer:checked + & { transform: translateY(2px); box-shadow: 0 1px 0 rgb(0 0 0 / 0.35); }
+}
+
+/* Sello FA de la marca: mango con volumen. */
+.sello-3d { background: linear-gradient(160deg, #ffd96b, #f5b31f); box-shadow: inset 0 2px 0 rgb(255 255 255 / 0.5), 0 3px 0 #a87400, 0 8px 14px -6px rgb(168 116 0 / 0.6); }
+
+/* Pestaña activa de la barra de abajo */
+.pildora-activa { background: color-mix(in srgb, var(--primary) 18%, var(--card)); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.12), inset 0 0 0 1px color-mix(in srgb, var(--primary) 25%, transparent); }
+
+/* Objetos 3D: una sombra que los despega del fondo */
+.objeto-3d { filter: drop-shadow(0 6px 6px rgb(0 0 0 / 0.22)); }
+.dark .objeto-3d { filter: drop-shadow(0 8px 8px rgb(0 0 0 / 0.45)); }
+.dark img.objeto-3d { filter: drop-shadow(0 8px 8px rgb(0 0 0 / 0.45)); }
+
+/* ---------- Cabecera con escena 3D (Semana, Lista, Recetas, Alacena, Yo, Meta) */
+.cabeza-3d {
+  --e1: #2bb36a; --e2: #145c32; --borde: #0b3a20;
+  position: relative; isolation: isolate; display: grid; align-content: center; min-height: 9.5rem;
+  margin-top: 1.4rem; padding: 1.35rem 1.35rem 1.45rem; border-radius: 1.9rem; color: #fff;
+  background: radial-gradient(120% 90% at 85% 0%, rgb(255 255 255 / 0.16), transparent 55%), linear-gradient(160deg, var(--e1), var(--e2));
+  box-shadow: inset 0 2px 0 rgb(255 255 255 / 0.18), 0 5px 0 var(--borde), 0 26px 44px -24px color-mix(in srgb, var(--e2) 80%, #000);
+}
+.cabeza-3d h1 { color: inherit; }
+@media (min-width: 640px) { .cabeza-3d { min-height: 11rem; padding: 1.8rem 2rem; } }
+/* El verde sigue el color que la persona eligió para su app */
+.tono-escena-nopal { --e1: color-mix(in srgb, var(--primary) 78%, #fff 22%); --e2: color-mix(in srgb, var(--primary) 70%, #000 30%); --borde: color-mix(in srgb, var(--primary) 45%, #000); }
+.tono-escena-mango { --e1: #ffd257; --e2: #d99500; --borde: #8f6300; color: #2a2000; }
+.tono-escena-uva { --e1: #8a6cf0; --e2: #4b2f9e; --borde: #2c1a63; }
+.tono-escena-talavera { --e1: #3d86dd; --e2: #17457f; --borde: #0d2a4f; }
+.tono-escena-jamaica { --e1: #ea4f86; --e2: #8f1d4a; --borde: #560f2b; }
+
+.escena-objetos { position: absolute; z-index: 1; right: 0.5rem; top: -1.6rem; bottom: -0.8rem; width: 40%; max-width: 15rem; pointer-events: none; }
+.escena-objetos .e-grande { position: absolute; right: 2%; top: 0; width: min(9rem, 82%); height: auto; transform: rotate(7deg); animation: flotar-objeto 6s ease-in-out infinite; }
+.escena-objetos .e-chico { position: absolute; left: 0; bottom: 0; width: min(3.6rem, 34%); height: auto; transform: rotate(-14deg); animation: flotar-objeto 7s -2s ease-in-out infinite; }
+.escena-objetos .e-mini { position: absolute; left: 18%; top: 0.4rem; width: min(2.3rem, 22%); height: auto; animation: titilar 3.2s ease-in-out infinite; }
+@media (min-width: 640px) {
+  .escena-objetos { right: 1.5rem; top: -2.2rem; }
+  .escena-objetos .e-grande { width: min(11rem, 82%); }
+  .escena-objetos .e-chico { width: min(4.6rem, 34%); }
+}
+@keyframes flotar-objeto { 0%, 100% { translate: 0 0; } 50% { translate: 0 -7px; } }
+@keyframes titilar { 0%, 100% { scale: 1; opacity: 1; } 50% { scale: 0.82; opacity: 0.75; } }
+.flotar-suave { animation: flotar-objeto 5s ease-in-out infinite; }
+
+/* Arranque: la olla brinca */
+@keyframes brincar-olla { 0%, 100% { transform: translateY(0) rotate(-4deg); } 45% { transform: translateY(-14px) rotate(4deg); } }
+.rebotar-olla { animation: brincar-olla 0.9s cubic-bezier(0.4, 0, 0.3, 1) infinite; }
+
+/* Entrada: objetos 3D que flotan de fondo y la escena junto al título */
+.flotan > img { position: absolute; opacity: 0.9; animation: flotar 14s ease-in-out infinite, aparecer-suave 1.2s both; }
+.flotan > img:nth-child(2n) { animation-duration: 17s, 1.2s; animation-delay: -4s, 0.3s; }
+.flotan > img:nth-child(3n) { animation-duration: 19s, 1.2s; animation-delay: -9s, 0.6s; }
+.escena-entrada { position: relative; height: 13rem; }
+.escena-entrada .panel { position: absolute; inset: 2.6rem 0 0; border-radius: 2rem;
+  background: radial-gradient(120% 90% at 85% 0%, rgb(255 255 255 / 0.16), transparent 55%), linear-gradient(160deg, color-mix(in srgb, var(--primary) 78%, #fff 22%), color-mix(in srgb, var(--primary) 70%, #000 30%));
+  box-shadow: inset 0 2px 0 rgb(255 255 255 / 0.18), 0 5px 0 color-mix(in srgb, var(--primary) 45%, #000), 0 26px 44px -24px rgb(0 0 0 / 0.6); }
+.escena-entrada img { position: absolute; height: auto; }
+
+@media (prefers-reduced-motion: reduce) {
+  .escena-objetos img, .flotar-suave, .rebotar-olla, .flotan > img { animation: none !important; }
+}

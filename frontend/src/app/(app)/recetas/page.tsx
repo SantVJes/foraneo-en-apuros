@@ -7,6 +7,7 @@ import {
 } from "@phosphor-icons/react";
 import { toast } from "sonner";
 
+import { ESCENAS } from "@/components/img-3d";
 import { Cabeza, Cargando, Etiqueta, Vacio } from "@/components/app-shell";
 import { EditorReceta } from "@/components/editor-receta";
 import { IconoPlatillo } from "@/components/icono-platillo";
@@ -127,7 +128,7 @@ export default function Recetas() {
 
   return (
     <div className="pagina grid grid-cols-1 gap-5">
-      <Cabeza etiqueta="Cocina de la comunidad" titulo="Recetas">Comparte lo que cocinas y guarda lo que te late de otros foráneos.</Cabeza>
+      <Cabeza escena={ESCENAS.recetas} etiqueta="Cocina de la comunidad" titulo="Recetas">Comparte lo que cocinas y guarda lo que te late de otros foráneos.</Cabeza>
 
       <div className="flex gap-2">
         <div className="relative flex-1">
@@ -170,8 +171,7 @@ export default function Recetas() {
       )}
 
       {!visibles ? <Cargando texto="Buscando recetas…" /> : visibles.length === 0 ? (
-        <Vacio>
-          <CookingPot className="size-14 text-primary" weight="duotone" aria-hidden />
+        <Vacio img="pot-of-food">
           <p>{buscar ? `No encontramos recetas con “${buscar}”.` : filtros.length ? "Ninguna receta pasa esos filtros. Quita alguno." : pestana === "mias" ? "Todavía no has escrito recetas. ¿Qué es lo que mejor te sale?"
             : pestana === "guardadas" ? "Aquí van las recetas que guardes de la comunidad." : "Todavía no hay recetas. ¡Sé la primera persona en compartir una!"}</p>
           {pestana !== "guardadas" && <Button onClick={() => setEditando("nueva")}><Plus />Escribir una receta</Button>}

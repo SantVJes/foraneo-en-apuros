@@ -2,9 +2,10 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { ArrowSquareOut as ExternalLink, Info, MapPin, ShareNetwork, Storefront, Jar, UsersThree } from "@phosphor-icons/react";
+import { ArrowSquareOut as ExternalLink, Info, MapPin, ShareNetwork,  Jar, UsersThree } from "@phosphor-icons/react";
 import { toast } from "sonner";
 
+import { ESCENAS, Img3D } from "@/components/img-3d";
 import { Cabeza, Cargando, Etiqueta, Vacio } from "@/components/app-shell";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -79,8 +80,8 @@ export default function Lista() {
   if (cargando) return <Cargando texto="Comparando precios…" />;
   if (!plan)
     return (
-      <div className="pagina grid grid-cols-1 gap-6"><Cabeza titulo="Tu lista de compras" />
-        <Vacio><p>Primero arma tu semana y aquí te decimos qué comprar y dónde.</p><Button asChild><Link href="/semana/">Armar mi semana</Link></Button></Vacio></div>
+      <div className="pagina grid grid-cols-1 gap-6"><Cabeza escena={ESCENAS.lista} titulo="Tu lista de compras" />
+        <Vacio img="shopping-cart"><p>Primero arma tu semana y aquí te decimos qué comprar y dónde.</p><Button asChild><Link href="/semana/">Armar mi semana</Link></Button></Vacio></div>
     );
   if (!l) return <Cargando texto="Comparando precios…" />;
 
@@ -105,7 +106,7 @@ export default function Lista() {
 
   return (
     <div className={cn("grid grid-cols-1 gap-5", marcados.size > 0 && "pb-20")}>
-      <Cabeza etiqueta={`Para tu semana · ${l.comprar.length} productos`} titulo="Tu lista del súper">Tacha lo que vas echando al carrito.</Cabeza>
+      <Cabeza escena={ESCENAS.lista} etiqueta={`Para tu semana · ${l.comprar.length} productos`} titulo="Tu lista del súper">Tacha lo que vas echando al carrito.</Cabeza>
 
       <Card className="gap-3">
         <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
@@ -159,7 +160,7 @@ export default function Lista() {
               <div className="bg-ticket px-4 pb-4 pt-3 shadow-[0_10px_24px_-14px_rgba(0,0,0,.35)]">
                 <div className="flex items-start justify-between gap-3">
                   <div className="grid gap-0.5">
-                    <h2 className="flex items-center gap-2 text-[1.3rem] font-extrabold"><Storefront weight="duotone" className="size-6" style={{ color: t?.color || "#888" }} aria-hidden />{tienda}</h2>
+                    <h2 className="flex items-center gap-2 text-[1.3rem] font-extrabold"><Img3D n="convenience-store" className="size-9" /><span aria-hidden className="size-2.5 shrink-0 rounded-full" style={{ background: t?.color || "#888" }} />{tienda}</h2>
                     {t?.distancia_km != null && t.sucursal
                       ? <span className="font-mono text-xs text-muted-foreground">{t.distancia_km} km · <a className="inline-flex items-center gap-0.5 font-sans font-semibold text-primary underline underline-offset-2" target="_blank" rel="noopener" href={`https://www.google.com/maps/search/?api=1&query=${t.sucursal.lat},${t.sucursal.lng}`}><MapPin className="size-3.5" aria-hidden />Cómo llegar</a></span>
                       : <span className="font-mono text-xs text-muted-foreground">{lineas.length} productos</span>}

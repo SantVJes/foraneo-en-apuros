@@ -1,8 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { ArrowLeft, ArrowRight, CheckCircle, Confetti, Timer } from "@phosphor-icons/react";
+import { ArrowLeft, ArrowRight, CheckCircle } from "@phosphor-icons/react";
 
+import {  Img3D } from "@/components/img-3d";
 import { IconoPlatillo } from "@/components/icono-platillo";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
@@ -75,7 +76,7 @@ export function ModoCocinar({ platillo, personas, onClose, alTerminar }: {
           )}
           {fin && (
             <div className="grid justify-items-center gap-4 py-6 text-center">
-              <Confetti className="icono-rebote size-20 text-mango-text" weight="duotone" aria-hidden />
+              <Img3D n="party-popper" prioridad className="icono-rebote size-24" />
               <p className="text-2xl font-extrabold">¡Buen provecho!</p>
               <p className="text-muted-foreground">Te salió {platillo.nombre.toLowerCase()} hecho en casa.</p>
               {alTerminar}
@@ -106,7 +107,7 @@ function Temporizador({ minutos }: { minutos: number }) {
   const mmss = `${Math.floor(resta / 60)}:${String(resta % 60).padStart(2, "0")}`;
   return (
     <div className={cn("flex items-center gap-3 rounded-2xl border-2 bg-background p-3", fin && resta === 0 && "border-primary bg-accent")}>
-      <Timer className="size-8 text-primary" weight="duotone" aria-hidden />
+      <Img3D n="timer-clock" className="size-10" />
       <span className="flex-1 font-mono text-3xl font-bold" role="timer" aria-label={`Quedan ${mmss}`}>{fin && resta === 0 ? "¡Ya!" : mmss}</span>
       <Button variant={fin ? "ghost" : "default"} onClick={() => setFin(fin ? null : Date.now() + minutos * 60000)}>{fin ? "Reiniciar" : "Iniciar"}</Button>
     </div>

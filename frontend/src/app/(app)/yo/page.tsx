@@ -3,9 +3,10 @@
 import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { BookOpenText, CalendarCheck, CaretRight, Heartbeat, Crosshair as LocateFixed, ForkKnife, Leaf, MagnifyingGlass as Search, Palette, SignOut as LogOut, Storefront, Trash as Trash2, User, UsersThree, Wallet, X } from "@phosphor-icons/react";
+import {  CalendarCheck, CaretRight,  Crosshair as LocateFixed, ForkKnife, Leaf, MagnifyingGlass as Search, Palette, SignOut as LogOut, Storefront, Trash as Trash2, User, UsersThree, Wallet, X } from "@phosphor-icons/react";
 import { toast } from "sonner";
 
+import { ESCENAS, Img3D } from "@/components/img-3d";
 import { Cabeza, Cargando, Etiqueta } from "@/components/app-shell";
 import { ElegirEstilo, ElegirLectura } from "@/components/elegir-lectura";
 import { Button } from "@/components/ui/button";
@@ -127,7 +128,7 @@ export default function Yo() {
   ];
   return (
     <div className="pagina grid grid-cols-1 gap-5">
-      <Cabeza etiqueta={nuevo ? "Cuéntanos de ti" : "Tu perfil"} titulo="Yo" />
+      <Cabeza escena={ESCENAS.yo} etiqueta={nuevo ? "Cuéntanos de ti" : "Tu perfil"} titulo="Yo" />
 
       <Card className="gap-0 overflow-hidden p-0">
         <div className="flex items-center gap-4 bg-[linear-gradient(120deg,color-mix(in_srgb,var(--primary)_18%,transparent),color-mix(in_srgb,var(--mango)_28%,transparent))] p-5 dark:bg-[linear-gradient(120deg,color-mix(in_srgb,var(--primary)_16%,transparent),transparent_75%)]">
@@ -152,11 +153,11 @@ export default function Yo() {
       {!nuevo && (
         <div className="grid gap-3 sm:grid-cols-2">
           {([
-            ["/meta/", "Tu meta de salud", "Calorías, peso y cómo repartes la semana", Heartbeat],
-            ["/recetas/", "Tus recetas", "Las que escribiste y las que guardaste", BookOpenText],
+            ["/meta/", "Tu meta de salud", "Calorías, peso y cómo repartes la semana", "flexed-biceps"],
+            ["/recetas/", "Tus recetas", "Las que escribiste y las que guardaste", "open-book"],
           ] as const).map(([href, t, d, I]) => (
-            <Link key={href} href={href} className="group flex min-h-16 items-center gap-3 rounded-2xl border bg-card px-4 py-3 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary">
-              <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-accent text-accent-texto"><I className="size-6" weight="duotone" aria-hidden /></span>
+            <Link key={href} href={href} className="superficie group flex min-h-18 items-center gap-3 rounded-[1.4rem] px-4 py-3 transition-all duration-200 hover:-translate-y-0.5">
+              <span className="tono tono-verde grid size-14 shrink-0 place-items-center rounded-[1.1rem]"><Img3D n={I} className="size-10 transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110" /></span>
               <span className="grid min-w-0 flex-1 gap-0.5"><span className="font-semibold">{t}</span><span className="text-sm text-muted-foreground">{d}</span></span>
               <CaretRight className="size-5 text-muted-foreground transition-transform group-hover:translate-x-0.5" aria-hidden />
             </Link>

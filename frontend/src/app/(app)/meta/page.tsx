@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowLeft, ArrowRight, Briefcase, Coffee, CookingPot, Heartbeat as HeartPulse, Info, MoonStars, ShieldCheck, Trash as Trash2 } from "@phosphor-icons/react";
 import { toast } from "sonner";
 
+import { ESCENAS } from "@/components/img-3d";
 import { Cabeza, Cargando, Etiqueta } from "@/components/app-shell";
 import { NumeroAnimado } from "@/components/numero-animado";
 import { Button } from "@/components/ui/button";
@@ -105,7 +106,7 @@ function Cuestionario({ perfil, pesoActual, onListo, onCancelar }: {
 
   return (
     <div className="pagina grid grid-cols-1 gap-6">
-      <Cabeza etiqueta="Meta de salud" titulo="Cuéntanos de ti">
+      <Cabeza escena={ESCENAS.meta} etiqueta="Meta de salud" titulo="Cuéntanos de ti">
         Son 4 pasos cortos. Con eso calculamos tu peso saludable, cuánto comer al día y armamos tu menú con esa meta.
       </Cabeza>
 
@@ -262,7 +263,7 @@ function Resultado({ salud, onCambio, onEditar, onBorrado }: { salud: Salud; onC
   if (!c.disponible)
     return (
       <div className="pagina grid grid-cols-1 gap-6">
-        <Cabeza etiqueta="Meta de salud" titulo="Por ahora, sin meta de peso" />
+        <Cabeza escena={ESCENAS.meta} etiqueta="Meta de salud" titulo="Por ahora, sin meta de peso" />
         <Card>{c.avisos.map((a) => <p key={a}>{a}</p>)}<Button variant="outline" onClick={borrarTodo}>{borrar ? "¿Seguro? Toca otra vez" : "Borrar mis datos de salud"}</Button></Card>
       </div>
     );
@@ -270,7 +271,7 @@ function Resultado({ salud, onCambio, onEditar, onBorrado }: { salud: Salud; onC
   const titulo = c.meta === "bajar" ? `Llegar a ${kg(c.peso_meta!)}` : c.meta === "subir" ? `Subir a ${kg(c.peso_meta!)}` : "Mantenerte y comer bien";
   return (
     <div className="pagina grid grid-cols-1 gap-6">
-      <Cabeza etiqueta="Tu meta de salud" titulo={titulo}>
+      <Cabeza escena={ESCENAS.meta} etiqueta="Tu meta de salud" titulo={titulo}>
         {c.semanas ? <>A tu ritmo son unas <b className="text-foreground">{c.semanas} semanas</b>{c.fecha_estimada && <> (por ahí del {new Date(c.fecha_estimada + "T12:00").toLocaleDateString("es-MX", { day: "numeric", month: "long", year: "numeric" })})</>}. Tu menú ya se arma con estas calorías.</>
           : "Tu menú ya se arma con estas calorías."}
       </Cabeza>
