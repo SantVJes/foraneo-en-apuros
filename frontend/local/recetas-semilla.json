@@ -1,0 +1,1138 @@
+[
+{
+"nombre": "Huevos rancheros",
+"tipo_comida": "desayuno",
+"dificultad": "facil",
+"tiempo_minutos": 20,
+"porciones": 2,
+"descripcion": "Huevo estrellado sobre tortilla dorada, bañado en salsa ranchera.",
+"pasos": "1. Asa el jitomate, el chile y el ajo en el comal hasta que se tatemen.\n2. Licúalos con la cebolla y una pizca de sal.\n3. Fríe la salsa 5 minutos en una olla con un poco de aceite.\n4. Pasa las tortillas por aceite caliente unos segundos.\n5. Fríe los huevos estrellados y ponlos sobre las tortillas.\n6. Báñalos con la salsa y sirve con frijoles.",
+"ing": [
+[
+32,
+4
+],
+[
+30,
+120
+],
+[
+51,
+300
+],
+[
+52,
+40
+],
+[
+54,
+10
+],
+[
+53,
+4
+],
+[
+3,
+20
+],
+[
+1,
+4
+],
+[
+10,
+100
+]
+]
+},
+{
+"nombre": "Huevos en salsa roja",
+"tipo_comida": "desayuno",
+"dificultad": "facil",
+"tiempo_minutos": 20,
+"porciones": 2,
+"descripcion": "Huevo revuelto que se termina de cocer en salsa de guajillo.",
+"pasos": "1. Quita semillas al guajillo y remójalo en agua caliente 10 minutos.\n2. Licúa el chile con jitomate, ajo, cebolla y sal.\n3. Revuelve los huevos en un sartén con aceite, sin que se cuezan del todo.\n4. Agrega la salsa y deja hervir 5 minutos.\n5. Sirve con tortillas calientes.",
+"ing": [
+[
+32,
+4
+],
+[
+51,
+300
+],
+[
+24,
+10
+],
+[
+53,
+3
+],
+[
+52,
+30
+],
+[
+3,
+15
+],
+[
+1,
+3
+],
+[
+30,
+120
+]
+]
+},
+{
+"nombre": "Atole de avena",
+"tipo_comida": "desayuno",
+"dificultad": "facil",
+"tiempo_minutos": 15,
+"porciones": 2,
+"descripcion": "Bebida caliente y espesa, ideal para mañanas frías.",
+"pasos": "1. Calienta la leche con la canela.\n2. Cuando hierva, agrega la avena y mueve sin parar.\n3. Cocina 8 minutos a fuego bajo hasta que espese.\n4. Endulza al gusto y quita la canela antes de servir.",
+"ing": [
+[
+17,
+80
+],
+[
+33,
+500
+],
+[
+7,
+3
+],
+[
+21,
+30
+]
+]
+},
+{
+"nombre": "Licuado verde",
+"tipo_comida": "desayuno",
+"dificultad": "facil",
+"tiempo_minutos": 5,
+"porciones": 1,
+"descripcion": "Espinaca, plátano y pepino: se toma en dos minutos.",
+"pasos": "1. Lava bien la espinaca y el pepino.\n2. Pon todo en la licuadora con medio vaso de agua fría.\n3. Licúa hasta que no queden pedazos y sirve de inmediato.",
+"ing": [
+[
+61,
+40
+],
+[
+70,
+120
+],
+[
+64,
+100
+],
+[
+68,
+20
+],
+[
+36,
+150
+],
+[
+22,
+10
+]
+]
+},
+{
+"nombre": "Pan con aguacate y huevo",
+"tipo_comida": "desayuno",
+"dificultad": "facil",
+"tiempo_minutos": 10,
+"porciones": 1,
+"descripcion": "Pan tostado con aguacate machacado y huevo encima.",
+"pasos": "1. Tuesta el pan en el comal o sartén.\n2. Machaca el aguacate con limón, sal y pimienta.\n3. Cuece los huevos como te gusten: estrellados o tibios.\n4. Unta el aguacate en el pan y pon el huevo encima.",
+"ing": [
+[
+29,
+80
+],
+[
+69,
+100
+],
+[
+32,
+2
+],
+[
+68,
+10
+],
+[
+1,
+2
+],
+[
+2,
+1
+]
+]
+},
+{
+"nombre": "Arroz con leche",
+"tipo_comida": "desayuno",
+"dificultad": "facil",
+"tiempo_minutos": 40,
+"porciones": 4,
+"descripcion": "El postre de la abuela; también va bien de desayuno.",
+"pasos": "1. Hierve el arroz en 2 tazas de agua con la canela hasta que se consuma el agua.\n2. Agrega la leche y cocina a fuego bajo 25 minutos, moviendo seguido.\n3. Cuando espese, agrega el azúcar y cocina 5 minutos más.\n4. Sírvelo caliente o déjalo enfriar en el refri.",
+"ing": [
+[
+9,
+150
+],
+[
+33,
+1000
+],
+[
+21,
+120
+],
+[
+7,
+5
+]
+]
+},
+{
+"nombre": "Entomatadas",
+"tipo_comida": "cena",
+"dificultad": "facil",
+"tiempo_minutos": 25,
+"porciones": 2,
+"descripcion": "Tortillas dobladas en salsa de jitomate con queso y crema.",
+"pasos": "1. Hierve el jitomate 5 minutos y lícualo con ajo, un poco de cebolla y sal.\n2. Fríe la salsa 5 minutos.\n3. Calienta las tortillas, pásalas por la salsa y dóblalas.\n4. Sirve con queso desmoronado, crema y cebolla en rodajas.",
+"ing": [
+[
+30,
+240
+],
+[
+51,
+400
+],
+[
+52,
+60
+],
+[
+53,
+4
+],
+[
+39,
+120
+],
+[
+37,
+60
+],
+[
+3,
+20
+],
+[
+1,
+4
+]
+]
+},
+{
+"nombre": "Papas con chorizo",
+"tipo_comida": "cena",
+"dificultad": "facil",
+"tiempo_minutos": 25,
+"porciones": 3,
+"descripcion": "Relleno clásico para tacos o tortas.",
+"pasos": "1. Pela y corta las papas en cubos chicos; hiérvelas 8 minutos.\n2. Fríe el chorizo hasta que suelte su grasa.\n3. Agrega la cebolla picada y luego las papas escurridas.\n4. Cocina 10 minutos aplastando un poco las papas. Sirve en tacos.",
+"ing": [
+[
+57,
+500
+],
+[
+43,
+150
+],
+[
+52,
+50
+],
+[
+30,
+240
+],
+[
+1,
+3
+]
+]
+},
+{
+"nombre": "Rajas con crema",
+"tipo_comida": "comida",
+"dificultad": "facil",
+"tiempo_minutos": 30,
+"porciones": 3,
+"descripcion": "Chile poblano en tiras con elote y crema.",
+"pasos": "1. Asa los chiles en el comal hasta que se ponga negra la piel.\n2. Mételos en una bolsa 10 minutos, pélalos y córtalos en tiras.\n3. Desgrana los elotes y fríe la cebolla con los granos 5 minutos.\n4. Agrega las rajas, la crema y el queso en cubos. Cocina 5 minutos más.",
+"ing": [
+[
+55,
+400
+],
+[
+52,
+100
+],
+[
+65,
+2
+],
+[
+37,
+200
+],
+[
+40,
+150
+],
+[
+3,
+15
+],
+[
+1,
+4
+]
+]
+},
+{
+"nombre": "Sopa de pasta casera",
+"tipo_comida": "comida",
+"dificultad": "facil",
+"tiempo_minutos": 25,
+"porciones": 4,
+"descripcion": "Sopa aguada de jitomate con espagueti en trocitos.",
+"pasos": "1. Rompe el espagueti en pedazos chicos.\n2. Dóralo en aceite moviendo hasta que tome color.\n3. Licúa el puré con cebolla, ajo y un litro de agua; agrégalo.\n4. Pon el consomé y hierve 12 minutos hasta que la pasta esté suave.",
+"ing": [
+[
+13,
+200
+],
+[
+14,
+210
+],
+[
+52,
+40
+],
+[
+53,
+4
+],
+[
+8,
+10
+],
+[
+3,
+20
+]
+]
+},
+{
+"nombre": "Frijoles charros",
+"tipo_comida": "comida",
+"dificultad": "intermedio",
+"tiempo_minutos": 60,
+"porciones": 4,
+"descripcion": "Frijoles caldosos con tocino, chorizo y chile.",
+"pasos": "1. Cuece los frijoles (o usa frijoles ya cocidos con su caldo).\n2. Fríe el tocino y el chorizo picados.\n3. Agrega cebolla, jitomate y chile picados; cocina 5 minutos.\n4. Pásalo a la olla de los frijoles y hierve 15 minutos.\n5. Agrega cilantro picado al final.",
+"ing": [
+[
+10,
+500
+],
+[
+44,
+100
+],
+[
+43,
+100
+],
+[
+51,
+200
+],
+[
+52,
+80
+],
+[
+54,
+15
+],
+[
+66,
+1
+],
+[
+1,
+8
+]
+]
+},
+{
+"nombre": "Arroz blanco con elote",
+"tipo_comida": "comida",
+"dificultad": "facil",
+"tiempo_minutos": 30,
+"porciones": 4,
+"descripcion": "Guarnición básica que va con todo.",
+"pasos": "1. Lava el arroz y escúrrelo bien.\n2. Fríelo en aceite con cebolla y ajo picados hasta que suene a arena.\n3. Agrega los granos de elote, 2 tazas de agua y el consomé.\n4. Tapa y cocina a fuego bajo 18 minutos sin destapar.",
+"ing": [
+[
+9,
+300
+],
+[
+65,
+1
+],
+[
+52,
+40
+],
+[
+53,
+4
+],
+[
+8,
+10
+],
+[
+3,
+20
+],
+[
+1,
+3
+]
+]
+},
+{
+"nombre": "Caldo de pollo con verduras",
+"tipo_comida": "comida",
+"dificultad": "facil",
+"tiempo_minutos": 60,
+"porciones": 4,
+"descripcion": "El caldito que cura todo.",
+"pasos": "1. Hierve el pollo con cebolla, ajo y sal en 2 litros de agua por 25 minutos.\n2. Agrega zanahoria y papa en trozos; cocina 10 minutos.\n3. Agrega la calabacita y el arroz; cocina 15 minutos más.\n4. Deshebra un poco el pollo y sirve con cilantro y limón.",
+"ing": [
+[
+45,
+600
+],
+[
+58,
+200
+],
+[
+59,
+200
+],
+[
+57,
+300
+],
+[
+52,
+80
+],
+[
+53,
+6
+],
+[
+66,
+1
+],
+[
+9,
+100
+],
+[
+1,
+10
+]
+]
+},
+{
+"nombre": "Tortitas de papa con queso",
+"tipo_comida": "comida",
+"dificultad": "intermedio",
+"tiempo_minutos": 40,
+"porciones": 3,
+"descripcion": "Tortitas doradas, crujientes por fuera y suaves por dentro.",
+"pasos": "1. Hierve las papas con cáscara, pélalas y hazlas puré.\n2. Mezcla el puré con queso, un huevo, la harina y sal.\n3. Forma tortitas y pásalas por el otro huevo batido.\n4. Fríelas en aceite caliente hasta que doren de los dos lados.\n5. Sírvelas con salsa de jitomate.",
+"ing": [
+[
+57,
+600
+],
+[
+39,
+150
+],
+[
+32,
+2
+],
+[
+19,
+40
+],
+[
+3,
+80
+],
+[
+1,
+4
+],
+[
+51,
+200
+]
+]
+},
+{
+"nombre": "Pechuga empanizada",
+"tipo_comida": "comida",
+"dificultad": "facil",
+"tiempo_minutos": 30,
+"porciones": 3,
+"descripcion": "Milanesa de pollo crujiente con ensalada.",
+"pasos": "1. Tuesta el pan y muélelo para hacer pan molido.\n2. Aplana las pechugas y ponles sal.\n3. Pásalas por harina, luego huevo batido y al final pan molido.\n4. Fríelas 4 minutos por lado.\n5. Sirve con lechuga y limón.",
+"ing": [
+[
+45,
+500
+],
+[
+32,
+2
+],
+[
+19,
+60
+],
+[
+29,
+100
+],
+[
+3,
+80
+],
+[
+1,
+4
+],
+[
+68,
+60
+],
+[
+67,
+1
+]
+]
+},
+{
+"nombre": "Bowl de arroz, pollo y brócoli",
+"tipo_comida": "comida",
+"dificultad": "facil",
+"tiempo_minutos": 30,
+"porciones": 2,
+"descripcion": "Plato completo con salsa de soya y miel.",
+"pasos": "1. Cuece el arroz.\n2. Corta el pollo en cubos y dóralo en aceite con ajo.\n3. Agrega el brócoli en arbolitos con un chorrito de agua y tapa 4 minutos.\n4. Mezcla la soya con la miel y agrégala al sartén.\n5. Sirve sobre el arroz.",
+"ing": [
+[
+9,
+150
+],
+[
+45,
+300
+],
+[
+60,
+250
+],
+[
+27,
+30
+],
+[
+53,
+4
+],
+[
+3,
+15
+],
+[
+22,
+15
+]
+]
+},
+{
+"nombre": "Calabacitas a la mexicana",
+"tipo_comida": "comida",
+"dificultad": "facil",
+"tiempo_minutos": 25,
+"porciones": 3,
+"descripcion": "Guisado de verduras con queso fresco.",
+"pasos": "1. Pica la calabacita en cubos y desgrana el elote.\n2. Fríe cebolla y ajo, agrega el jitomate picado.\n3. Agrega calabacita y elote, tapa y cocina 12 minutos.\n4. Pon el queso en cubos al final.",
+"ing": [
+[
+59,
+500
+],
+[
+65,
+1
+],
+[
+51,
+200
+],
+[
+52,
+50
+],
+[
+53,
+4
+],
+[
+39,
+100
+],
+[
+3,
+15
+],
+[
+1,
+4
+]
+]
+},
+{
+"nombre": "Ensalada de nopales",
+"tipo_comida": "comida",
+"dificultad": "facil",
+"tiempo_minutos": 20,
+"porciones": 3,
+"descripcion": "Fresca, barata y con mucha fibra.",
+"pasos": "1. Corta los nopales en tiras y hiérvelos 10 minutos con sal.\n2. Enjuágalos con agua fría para quitar la baba.\n3. Mézclalos con jitomate, cebolla y cilantro picados.\n4. Agrega limón, orégano y el queso en cubos.",
+"ing": [
+[
+63,
+500
+],
+[
+51,
+200
+],
+[
+52,
+60
+],
+[
+66,
+1
+],
+[
+40,
+120
+],
+[
+68,
+40
+],
+[
+6,
+1
+],
+[
+1,
+5
+]
+]
+},
+{
+"nombre": "Pollo en salsa de chipotle",
+"tipo_comida": "comida",
+"dificultad": "facil",
+"tiempo_minutos": 35,
+"porciones": 3,
+"descripcion": "Pollo en salsa cremosa y enchilosita.",
+"pasos": "1. Corta el pollo en tiras y dóralo en aceite con sal.\n2. Licúa la crema con chipotle, jitomate, cebolla y ajo.\n3. Agrega la salsa al pollo y cocina 15 minutos a fuego bajo.\n4. Sirve con arroz o tortillas.",
+"ing": [
+[
+45,
+500
+],
+[
+37,
+200
+],
+[
+25,
+30
+],
+[
+51,
+200
+],
+[
+52,
+50
+],
+[
+53,
+4
+],
+[
+3,
+15
+],
+[
+1,
+4
+]
+]
+},
+{
+"nombre": "Sopa de tortilla",
+"tipo_comida": "comida",
+"dificultad": "intermedio",
+"tiempo_minutos": 40,
+"porciones": 3,
+"descripcion": "Caldillo de jitomate con tiras de tortilla dorada.",
+"pasos": "1. Corta las tortillas en tiras y fríelas hasta que estén crujientes.\n2. Licúa jitomate, cebolla, ajo y un guajillo con un litro de agua.\n3. Fríe la mezcla, agrega el consomé y hierve 15 minutos.\n4. Sirve el caldo sobre las tiras con crema, queso y aguacate.",
+"ing": [
+[
+30,
+240
+],
+[
+51,
+400
+],
+[
+52,
+60
+],
+[
+53,
+4
+],
+[
+24,
+10
+],
+[
+8,
+10
+],
+[
+37,
+60
+],
+[
+40,
+100
+],
+[
+69,
+150
+],
+[
+3,
+80
+],
+[
+1,
+4
+]
+]
+},
+{
+"nombre": "Tacos de atún a la mexicana",
+"tipo_comida": "cena",
+"dificultad": "facil",
+"tiempo_minutos": 15,
+"porciones": 2,
+"descripcion": "Atún guisado con jitomate y chile. Rápido y barato.",
+"pasos": "1. Escurre el atún.\n2. Fríe cebolla, chile y jitomate picados 5 minutos.\n3. Agrega el atún y cocina 3 minutos más.\n4. Sirve en tortillas calientes con limón.",
+"ing": [
+[
+15,
+280
+],
+[
+51,
+200
+],
+[
+52,
+50
+],
+[
+54,
+10
+],
+[
+30,
+240
+],
+[
+3,
+10
+],
+[
+68,
+40
+]
+]
+},
+{
+"nombre": "Gorditas de frijol con queso",
+"tipo_comida": "cena",
+"dificultad": "intermedio",
+"tiempo_minutos": 40,
+"porciones": 3,
+"descripcion": "Masa rellena de frijol, dorada en el comal.",
+"pasos": "1. Mezcla la harina con agua tibia y sal hasta tener una masa suave.\n2. Haz bolitas, aplánalas y cuécelas en el comal 3 minutos por lado.\n3. Ábrelas por un lado como bolsita.\n4. Rellénalas con frijoles refritos, lechuga, queso y crema.",
+"ing": [
+[
+20,
+300
+],
+[
+10,
+200
+],
+[
+39,
+120
+],
+[
+37,
+80
+],
+[
+67,
+1
+],
+[
+3,
+30
+],
+[
+1,
+4
+]
+]
+},
+{
+"nombre": "Tostadas de pollo",
+"tipo_comida": "cena",
+"dificultad": "facil",
+"tiempo_minutos": 20,
+"porciones": 3,
+"descripcion": "Tostadas con frijol, pollo deshebrado y crema.",
+"pasos": "1. Hierve el pollo con sal 20 minutos y deshébralo.\n2. Fríe o hornea las tortillas hasta que estén duras.\n3. Unta frijoles en cada tostada.\n4. Pon pollo, lechuga, jitomate, crema y queso encima.",
+"ing": [
+[
+30,
+240
+],
+[
+45,
+300
+],
+[
+10,
+150
+],
+[
+67,
+1
+],
+[
+37,
+80
+],
+[
+39,
+80
+],
+[
+51,
+150
+],
+[
+3,
+40
+],
+[
+1,
+3
+]
+]
+},
+{
+"nombre": "Espagueti Alfredo con champiñones",
+"tipo_comida": "cena",
+"dificultad": "facil",
+"tiempo_minutos": 25,
+"porciones": 3,
+"descripcion": "Pasta cremosa con champiñones y queso.",
+"pasos": "1. Cuece la pasta en agua con sal.\n2. Derrite la mantequilla y fríe el ajo y los champiñones rebanados.\n3. Agrega la crema y el queso rallado; mueve hasta que se derrita.\n4. Mezcla con la pasta escurrida y pon pimienta.",
+"ing": [
+[
+13,
+250
+],
+[
+62,
+200
+],
+[
+37,
+200
+],
+[
+38,
+30
+],
+[
+53,
+4
+],
+[
+41,
+80
+],
+[
+2,
+1
+],
+[
+1,
+4
+]
+]
+},
+{
+"nombre": "Arroz frito con huevo",
+"tipo_comida": "cena",
+"dificultad": "facil",
+"tiempo_minutos": 20,
+"porciones": 2,
+"descripcion": "Para usar el arroz que sobró de ayer.",
+"pasos": "1. Usa arroz ya cocido y frío (sale mejor).\n2. Fríe la cebolla, la zanahoria picada y el jamón 4 minutos.\n3. Haz espacio en el sartén y revuelve los huevos ahí.\n4. Agrega el arroz y la soya; fríe todo 5 minutos a fuego alto.",
+"ing": [
+[
+9,
+150
+],
+[
+32,
+2
+],
+[
+58,
+80
+],
+[
+52,
+40
+],
+[
+27,
+30
+],
+[
+3,
+20
+],
+[
+42,
+80
+]
+]
+},
+{
+"nombre": "Burritos de carne molida",
+"tipo_comida": "cena",
+"dificultad": "facil",
+"tiempo_minutos": 25,
+"porciones": 3,
+"descripcion": "Carne con frijol y queso en tortilla de harina.",
+"pasos": "1. Fríe la carne con cebolla, sal y comino hasta que se dore.\n2. Agrega el jitomate picado y cocina 5 minutos.\n3. Calienta las tortillas.\n4. Rellena con frijoles, carne y queso; enrolla y dóralos en el comal.",
+"ing": [
+[
+31,
+270
+],
+[
+46,
+400
+],
+[
+10,
+150
+],
+[
+52,
+60
+],
+[
+51,
+150
+],
+[
+41,
+100
+],
+[
+1,
+4
+],
+[
+5,
+1
+]
+]
+},
+{
+"nombre": "Sándwich de pollo con aguacate",
+"tipo_comida": "cena",
+"dificultad": "facil",
+"tiempo_minutos": 15,
+"porciones": 2,
+"descripcion": "Para llevar a la escuela o al trabajo.",
+"pasos": "1. Aplana la pechuga, ponle sal y ásala en un sartén con poco aceite.\n2. Rebánala en tiras.\n3. Unta mayonesa en el pan y pon aguacate, jitomate, lechuga y pollo.",
+"ing": [
+[
+29,
+160
+],
+[
+45,
+200
+],
+[
+69,
+150
+],
+[
+51,
+100
+],
+[
+67,
+1
+],
+[
+16,
+30
+],
+[
+3,
+10
+],
+[
+1,
+2
+]
+]
+},
+{
+"nombre": "Guacamole con totopos",
+"tipo_comida": "cena",
+"dificultad": "facil",
+"tiempo_minutos": 15,
+"porciones": 3,
+"descripcion": "Botana o cena ligera para compartir.",
+"pasos": "1. Corta las tortillas en triángulos y fríelas hasta que estén crujientes.\n2. Machaca el aguacate con limón y sal.\n3. Agrega jitomate, cebolla, chile y cilantro picados.\n4. Sirve con los totopos.",
+"ing": [
+[
+69,
+450
+],
+[
+51,
+150
+],
+[
+52,
+50
+],
+[
+54,
+10
+],
+[
+66,
+1
+],
+[
+68,
+40
+],
+[
+30,
+200
+],
+[
+3,
+60
+],
+[
+1,
+4
+]
+]
+}
+]

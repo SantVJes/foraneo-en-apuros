@@ -7,6 +7,7 @@ import { toast } from "sonner";
 
 import { Cargando } from "@/components/app-shell";
 import { ElegirLectura } from "@/components/elegir-lectura";
+import { Img3D } from "@/components/img-3d";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -132,9 +133,12 @@ export default function Bienvenida() {
         </div>
       </div>
       <div key={paso} className="entrar-pantalla grid gap-5">
-        <div className="grid gap-1">
-          <h1 ref={titulo} tabIndex={-1} className="text-[1.9rem] font-extrabold leading-tight outline-none">{P.titulo}</h1>
-          <p className="text-muted-foreground">{P.ayuda}</p>
+        <div className="flex items-center gap-4">
+          <Img3D n={paso === 0 ? "green-salad" : "money-bag"} prioridad className="flotar-suave size-20 shrink-0" />
+          <div className="grid gap-1">
+            <h1 ref={titulo} tabIndex={-1} className="text-[1.9rem] font-extrabold leading-tight outline-none">{P.titulo}</h1>
+            <p className="text-muted-foreground">{P.ayuda}</p>
+          </div>
         </div>
         {P.cuerpo}
       </div>

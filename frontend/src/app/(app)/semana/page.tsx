@@ -3,13 +3,15 @@
 import * as React from "react";
 import Link from "next/link";
 import {
-  ArrowsClockwise as RefreshCw, CaretRight, ChefHat, CheckCircle, Circle, Fire, MoonStars, PiggyBank, Plus, Sun, SunHorizon, ShoppingCartSimple as ShoppingCart, Trash as Trash2, X,
+  ArrowsClockwise as RefreshCw, CaretRight, ChefHat, CheckCircle, Circle, Fire, Plus, ShoppingCartSimple as ShoppingCart, Trash as Trash2, X,
 } from "@phosphor-icons/react";
 import { toast } from "sonner";
 
+import { ESCENAS, Img3D } from "@/components/img-3d";
 import { Cabeza, Cargando, Etiqueta } from "@/components/app-shell";
 import { IconoPlatillo } from "@/components/icono-platillo";
 import { ModoCocinar } from "@/components/modo-cocinar";
+import { RecetaExplotada } from "@/components/receta-explotada";
 import { PillDificultad } from "@/components/pill-dificultad";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -125,7 +127,7 @@ export default function Semana() {
   return (
     <div className="pagina grid grid-cols-1 gap-5">
       <Saludo nombre={u.first_name} />
-      <Cabeza etiqueta={plan ? "Semana del " + fechaLarga(plan.fecha_inicio) : undefined}
+      <Cabeza escena={ESCENAS.semana} etiqueta={plan ? "Semana del " + fechaLarga(plan.fecha_inicio) : undefined}
         titulo={plan ? "Tu semana" : <>Hola{u.first_name ? `, ${u.first_name}` : ""}. Armemos tu semana</>}>
         {!plan && <>Te proponemos qué comer cada día{conMeta ? " según tus calorías" : ""}. Lo puedes cambiar cuando quieras.</>}
       </Cabeza>
@@ -270,7 +272,10 @@ function Receta({ id, personas, conMeta, onClose, cocinar }: { id: number | null
             </div>
             {p.pasos && <Button size="lg" onClick={() => cocinar(p)}><ChefHat weight="fill" />Cocinar paso a paso</Button>}
             <div className="grid gap-2">
-              <h3 className="text-lg font-bold">Ingredientes <span className="text-sm font-normal text-muted-foreground">(para {personas} {personas === 1 ? "persona" : "personas"})</span></h3>
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <h3 className="text-lg font-bold">Ingredientes <span className="text-sm font-normal text-muted-foreground">(para {personas} {personas === 1 ? "persona" : "personas"})</span></h3>
+                <RecetaExplotada receta={p} />
+              </div>
               <ul className="grid gap-1.5">
                 {p.ingredientes.map((i) => (
                   <li key={i.ingrediente_id} className="flex justify-between gap-3 border-b border-dashed pb-1.5">
@@ -329,10 +334,10 @@ function Saludo({ nombre }: { nombre: string }) {
   const [h, setH] = React.useState<number | null>(null);
   React.useEffect(() => setH(new Date().getHours()), []);
   if (h === null) return null;
-  const [texto, I] = h < 12 ? ["Buenos días", Sun] : h < 19 ? ["Buenas tardes", SunHorizon] : ["Buenas noches", MoonStars];
+  const [texto, img] = h < 12 ? ["Buenos días", "sun-with-face"] : h < 19 ? ["Buenas tardes", "sunrise"] : ["Buenas noches", "crescent-moon"];
   return (
     <p className="-mb-3 flex items-center gap-2 font-semibold text-accent-texto">
-      <I className="amanecer size-6 text-mango-text" weight="duotone" aria-hidden />{texto}{nombre ? `, ${nombre}` : ""}
+      <span className="amanecer"><Img3D n={img} prioridad className="size-8" /></span>{texto}{nombre ? `, ${nombre}` : ""}
     </p>
   );
 }
@@ -417,7 +422,7 @@ function EsteMes() {
   if (!r || r.compras === 0) return null;
   return (
     <Card className="flex-row items-center gap-3">
-      <span aria-hidden className="tono tono-verde grid size-12 shrink-0 place-items-center rounded-2xl"><PiggyBank className="size-7" weight="duotone" /></span>
+      <span aria-hidden className="tono tono-verde grid size-14 shrink-0 place-items-center rounded-[1.1rem]"><Img3D n="money-bag" className="size-10" /></span>
       <div className="grid min-w-0 gap-0.5">
         <p className="font-semibold">Este mes llevas {dinero(r.gastado)} en súper{r.ahorro > 0 && <> y te ahorraste <b className="text-primary">{dinero(r.ahorro)}</b></>}.</p>
         <p className="text-xs text-muted-foreground">Comparado con {r.comidas} {r.comidas === 1 ? "comida" : "comidas"} fuera a {dinero(COMIDA_FUERA)} cada una (estimado).</p>

@@ -2,9 +2,9 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { Avocado, Bread, Carrot, Cheese, Egg, Pepper } from "@phosphor-icons/react";
 import { toast } from "sonner";
 
+import { Img3D } from "@/components/img-3d";
 import { Marca } from "@/components/marca";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -47,23 +47,30 @@ export default function Entrar() {
     <main id="contenido" className="pagina mx-auto grid min-h-dvh max-w-5xl content-center gap-6 px-4 py-8 md:grid-cols-[1.1fr_1fr] md:gap-x-12">
       <div className="fondo-degradado" aria-hidden />
       <div className="flotan" aria-hidden>
-        <Carrot weight="duotone" className="left-[6%] top-[12%] size-14" />
-        <Egg weight="duotone" className="right-[8%] top-[8%] size-12" />
-        <Avocado weight="duotone" className="right-[4%] top-[46%] size-16" />
-        <Pepper weight="duotone" className="left-[3%] top-[58%] size-12" />
-        <Bread weight="duotone" className="bottom-[6%] left-[40%] size-14" />
-        <Cheese weight="duotone" className="bottom-[14%] right-[18%] size-11" />
+        <Img3D n="carrot" prioridad className="left-[4%] top-[10%] hidden size-16 md:block" />
+        <Img3D n="egg" prioridad className="right-[6%] top-[6%] size-12" />
+        <Img3D n="hot-pepper" prioridad className="left-[46%] top-[4%] hidden size-12 md:block" />
+        <Img3D n="bread" prioridad className="bottom-[5%] left-[38%] hidden size-16 md:block" />
+        <Img3D n="cheese-wedge" prioridad className="bottom-[10%] right-[6%] hidden size-14 md:block" />
       </div>
       {telon && (
         <div className="telon" style={{ "--x": telon.x, "--y": telon.y } as React.CSSProperties} role="status">
           <div className="grid justify-items-center gap-4 text-center">
-            <span className="sello-fa grid size-24 place-items-center rounded-full bg-mango font-display text-4xl font-extrabold text-mango-foreground shadow-[inset_0_0_0_3px_var(--foreground)]">FA</span>
+            <span className="sello-fa sello-3d grid size-24 place-items-center rounded-[1.8rem] font-display text-4xl font-extrabold text-mango-foreground">FA</span>
             <p className="text-2xl font-extrabold">{modo === "registro" ? `¡Bienvenido${telon.nombre ? ", " + telon.nombre : ""}!` : "¡Qué gusto verte!"}</p>
           </div>
         </div>
       )}
       <section className="grid gap-4 md:row-span-2 md:self-center">
         <Marca className="intro-logo" />
+        <div aria-hidden className="escena-entrada aparecer md:order-last md:mt-4" style={{ "--d": "0.4s" } as React.CSSProperties}>
+          <div className="panel" />
+          <Img3D n="shopping-cart" prioridad className="flotar-suave left-1/2 top-0 w-40 -translate-x-1/2" />
+          <Img3D n="avocado" prioridad className="bottom-6 left-[6%] w-20 -rotate-12" />
+          <Img3D n="taco" prioridad className="bottom-8 right-[6%] w-22 rotate-12" />
+          <Img3D n="tomato" prioridad className="bottom-1 left-[30%] w-13" />
+          <Img3D n="sparkles" prioridad className="right-[24%] top-4 w-10" />
+        </div>
         <h1 className="palabras text-[clamp(2.2rem,7vw,3.6rem)] font-extrabold leading-[1.02]" aria-label="Come rico toda la semana sin quebrarte">
           {["Come", "rico", "toda", "la", "semana"].map((w, i) => <React.Fragment key={w}><span aria-hidden><span style={{ "--i": i } as React.CSSProperties}>{w}</span></span>{" "}</React.Fragment>)}
           <span aria-hidden><span style={{ "--i": 5 } as React.CSSProperties}><span className="subrayar px-1">sin quebrarte</span></span></span>
@@ -71,7 +78,7 @@ export default function Entrar() {
         <p className="aparecer max-w-[46ch] text-lg text-muted-foreground" style={{ "--d": "0.9s" } as React.CSSProperties}>Para el que vive lejos de casa. Te decimos qué cocinar, qué comprar y en qué súper cerca de ti sale más barato.</p>
         <ol className="hidden gap-3 md:grid">
           {PASOS.map(([n, t, d]) => (
-            <li key={n} className="aparecer flex gap-3" style={{ "--d": `${1 + Number(n) * 0.12}s` } as React.CSSProperties}><span aria-hidden className="grid size-7 shrink-0 place-items-center rounded-full bg-mango text-sm font-extrabold text-mango-foreground shadow-[inset_0_0_0_2px_var(--foreground)]">{n}</span>
+            <li key={n} className="aparecer flex gap-3" style={{ "--d": `${1 + Number(n) * 0.12}s` } as React.CSSProperties}><span aria-hidden className="sello-3d grid size-8 shrink-0 place-items-center rounded-[0.7rem] text-sm font-extrabold text-mango-foreground">{n}</span>
               <span><b className="font-semibold">{t}</b><span className="block text-muted-foreground">{d}</span></span></li>
           ))}
         </ol>
@@ -113,7 +120,7 @@ export default function Entrar() {
 
       <ol className="grid gap-3 md:hidden">
         {PASOS.map(([n, t, d]) => (
-          <li key={n} className="aparecer flex gap-3" style={{ "--d": `${1 + Number(n) * 0.12}s` } as React.CSSProperties}><span aria-hidden className="grid size-7 shrink-0 place-items-center rounded-full bg-mango text-sm font-extrabold text-mango-foreground shadow-[inset_0_0_0_2px_var(--foreground)]">{n}</span>
+          <li key={n} className="aparecer flex gap-3" style={{ "--d": `${1 + Number(n) * 0.12}s` } as React.CSSProperties}><span aria-hidden className="sello-3d grid size-8 shrink-0 place-items-center rounded-[0.7rem] text-sm font-extrabold text-mango-foreground">{n}</span>
             <span><b className="font-semibold">{t}</b><span className="block text-muted-foreground">{d}</span></span></li>
         ))}
       </ol>
