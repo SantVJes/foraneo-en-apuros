@@ -4,6 +4,7 @@
    Lo único que sale a internet es opcional: buscar súper cercanos (OpenStreetMap) y direcciones (Nominatim). */
 
 import CATALOGO from "./catalogo.json";
+import SEMILLA from "./recetas-semilla.json";
 
 type Num = number;
 type Ing = { id: Num; nombre: string; categoria: string; unidad_base: "g" | "ml" | "pieza"; tamano_paquete: Num; nombre_paquete: string;
@@ -28,7 +29,7 @@ type DB = {
   sustituciones: { original_id: Num; reemplazo_id: Num }[];
   alacena: Articulo[]; planes: PlanDB[]; recetas: Plat[]; guardadas: Num[]; cocinadas: Num[]; reportadas: Num[];
   salud: { perfil: Record<string, unknown> | null; pesos: { fecha: string; peso_kg: Num }[] };
-  sucursales: Sucursal[]; zonas: string[];
+  sucursales: Sucursal[]; zonas: string[]; semilla?: number;
 };
 
 const ING: Ing[] = (CATALOGO as { ingredientes: Ing[] }).ingredientes;
@@ -86,7 +87,24 @@ function db(): DB {
   if (memoria) return memoria;
   try { memoria = JSON.parse(localStorage.getItem(CLAVE) || "null"); } catch { memoria = null; }
   if (!memoria || memoria.v !== 1) memoria = nueva();
+  sembrar(memoria);
   return memoria;
+}
+/* Recetas ya capturadas que trae la app (clásicas de la cocina mexicana, escritas con palabras propias).
+   Salen en Comunidad; si las guardas, entran a tu semana. */
+const VERSION_SEMILLA = 1, AUTOR_SEMILLA = "Cocina Foráneo", ID_SEMILLA = ID_RECETAS + 900000;
+type Semilla = { nombre: string; tipo_comida: string; dificultad: string; tiempo_minutos: number; porciones: number; descripcion: string; pasos: string; ing: [number, number][] };
+function sembrar(d: DB) {
+  if ((d.semilla || 0) >= VERSION_SEMILLA) return;
+  const ya = new Set(d.recetas.map((r) => r.id));
+  (SEMILLA as Semilla[]).forEach((x, i) => {
+    const id = ID_SEMILLA + i;
+    if (ya.has(id)) return;
+    const r: Plat = { ...x, id, estilo: "Mexicana", imagen_url: "", autor: AUTOR_SEMILLA, publica: true, codigo: null, creado: "2026-11-17T12:00:00Z" };
+    r.codigo = codificar(r);
+    d.recetas.push(r);
+  });
+  d.semilla = VERSION_SEMILLA;
 }
 function guardar() { try { localStorage.setItem(CLAVE, JSON.stringify(db())); } catch { /* sin espacio o modo privado: vive en memoria */ } }
 const nuevoId = () => db().seq++;
@@ -546,7 +564,7 @@ function actualizarUsuario(b: Record<string, unknown>) {
 
 function codificar(p: Plat) {
   const datos = { n: p.nombre, d: p.descripcion, t: p.tipo_comida, f: p.dificultad, m: p.tiempo_minutos, p: p.porciones, s: p.pasos, i: p.ing,
-    a: db().usuario.first_name.trim().split(" ")[0] || "Un foráneo" };
+    a: p.autor && p.autor !== "yo" ? p.autor : (memoria?.usuario.first_name.trim().split(" ")[0] || "Un foráneo") };
   const bytes = new TextEncoder().encode(JSON.stringify(datos));
   let bin = ""; bytes.forEach((b) => (bin += String.fromCharCode(b)));
   return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
