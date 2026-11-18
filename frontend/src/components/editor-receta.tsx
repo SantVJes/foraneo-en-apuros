@@ -4,7 +4,9 @@ import * as React from "react";
 import { ArrowLeft, Check, Globe, LockSimple, MagnifyingGlass, Minus, Plus, Trash } from "@phosphor-icons/react";
 import { toast } from "sonner";
 
-import { IconoPlatillo } from "@/components/icono-platillo";
+import { iconoDe, IconoPlatillo } from "@/components/icono-platillo";
+import { Img3D } from "@/components/img-3d";
+import { imagenIngrediente } from "@/components/receta-explotada";
 import { pasosDe } from "@/components/modo-cocinar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -63,7 +65,9 @@ export function EditorReceta({ receta, onClose, listo }: { receta: Receta | null
   const [catalogo, setCatalogo] = React.useState<Ingrediente[]>([]);
   React.useEffect(() => { ingredientes().then(setCatalogo).catch(() => {}); }, [ingredientes]);
 
-  const [paso, setPaso] = React.useState(0);
+  const [paso, setPasoReal] = React.useState(0);
+  const [haciaAtras, setHaciaAtras] = React.useState(false);
+  const setPaso = (n: number) => { setHaciaAtras(n < paso); setPasoReal(n); };
   const [d, setD] = React.useState<Datos>(() => {
     if (receta) return {
       nombre: receta.nombre, tipo: receta.tipo_comida, dif: receta.dificultad, minutos: receta.tiempo_minutos, porciones: receta.porciones,
@@ -140,12 +144,12 @@ export function EditorReceta({ receta, onClose, listo }: { receta: Receta | null
             <button type="button" className="font-semibold underline underline-offset-2" onClick={() => { try { localStorage.removeItem(BORRADOR); } catch { /* nada */ } setD({ nombre: "", tipo: "comida", dif: "facil", minutos: 20, porciones: 2, filas: [], pasos: [""], tip: "", publica: null }); }}>Empezar de cero</button></p>
         )}
 
-        <div key={paso} className="entrar-pantalla grid flex-1 content-start gap-5 overflow-y-auto pb-2">
+        <div key={paso} className={cn(haciaAtras ? "deslizar-atras" : "deslizar-adelante", "grid flex-1 content-start gap-5 overflow-y-auto pb-2")}>
           {paso === 0 && (
             <>
               <h2 ref={titulo} tabIndex={-1} className="text-2xl font-extrabold outline-none">¿Qué vas a cocinar?</h2>
               <div className="flex items-center gap-3">
-                <IconoPlatillo nombre={d.nombre || " "} tipo={d.tipo} tamano="md" />
+                <IconoPlatillo key={iconoDe(d.nombre || " ", d.tipo)[0]} nombre={d.nombre || " "} tipo={d.tipo} tamano="md" className="icono-cambia" />
                 <Input id="r-nombre" aria-label="Nombre de la receta" value={d.nombre} maxLength={150} onChange={(e) => cambiar({ nombre: e.target.value })}
                   placeholder="Ej. Molletes de la casa" className="h-12 text-lg" autoComplete="off" />
               </div>
@@ -168,8 +172,9 @@ export function EditorReceta({ receta, onClose, listo }: { receta: Receta | null
               {filas.length > 0 && (
                 <ul className="grid gap-2">
                   {filas.map((f, i) => (
-                    <li key={f.ing.id} className="grid gap-1.5 rounded-2xl border-2 bg-background px-3 py-2">
+                    <li key={f.ing.id} className="entrar-pantalla grid gap-1.5 rounded-2xl border-2 bg-background px-3 py-2">
                       <div className="flex items-center gap-2">
+                        <Img3D n={imagenIngrediente(f.ing.nombre)} className="icono-cambia size-8 shrink-0" />
                         <span className="min-w-0 flex-1 font-semibold">{f.ing.nombre}</span>
                         <button type="button" aria-label={`Quitar ${f.ing.nombre}`} onClick={() => cambiar({ filas: d.filas.filter((_, j) => j !== i) })}
                           className="grid size-9 place-items-center rounded-full text-muted-foreground hover:bg-destructive-soft hover:text-destructive"><Trash className="size-5" /></button>
@@ -270,7 +275,7 @@ export function EditorReceta({ receta, onClose, listo }: { receta: Receta | null
           <div className="flex gap-2">
             {paso > 0 && <Button size="lg" variant="outline" onClick={() => setPaso(paso - 1)} aria-label="Atrás"><ArrowLeft weight="bold" /></Button>}
             <Button size="lg" className="flex-1" disabled={!!faltas[paso] || enviando} onClick={() => (ultimo ? publicar() : setPaso(paso + 1))}>
-              {enviando ? "Guardando…" : !ultimo ? "Siguiente" : receta ? "Guardar cambios" : d.publica ? "Publicar receta" : "Guardar receta"}
+              {enviando ? <><Img3D n="pot-of-food" prioridad className="size-6 animate-bounce" />Guardando…</> : !ultimo ? "Siguiente" : receta ? "Guardar cambios" : d.publica ? "Publicar receta" : "Guardar receta"}
             </Button>
           </div>
         </div>

@@ -3,10 +3,10 @@ import { cn } from "@/lib/utils";
 /* Objetos 3D de Fluent Emoji (Microsoft, licencia MIT), guardados en public/3d como WebP de ~4 KB.
    Son decorativos: el texto siempre dice lo mismo al lado, así que van con alt vacío. */
 
-export function Img3D({ n, className, prioridad }: { n: string; className?: string; prioridad?: boolean }) {
+export function Img3D({ n, className, prioridad, style }: { n: string; className?: string; prioridad?: boolean; style?: React.CSSProperties }) {
   return (
     <img src={`/3d/${n}.webp`} alt="" aria-hidden width={192} height={192} draggable={false}
-      loading={prioridad ? "eager" : "lazy"} decoding="async"
+      loading={prioridad ? "eager" : "lazy"} decoding="async" style={style}
       className={cn("objeto-3d pointer-events-none select-none", className)} />
   );
 }

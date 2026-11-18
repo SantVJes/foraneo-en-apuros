@@ -7,12 +7,12 @@ import {
 } from "@phosphor-icons/react";
 import { toast } from "sonner";
 
-import { ESCENAS } from "@/components/img-3d";
+import { ESCENAS, Img3D } from "@/components/img-3d";
 import { Cabeza, Cargando, Etiqueta, Vacio } from "@/components/app-shell";
 import { EditorReceta } from "@/components/editor-receta";
 import { IconoPlatillo } from "@/components/icono-platillo";
 import { ModoCocinar } from "@/components/modo-cocinar";
-import { RecetaExplotada } from "@/components/receta-explotada";
+import { imagenIngrediente, RecetaExplotada } from "@/components/receta-explotada";
 import { PillDificultad } from "@/components/pill-dificultad";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -200,7 +200,7 @@ export default function Recetas() {
 
 function Tarjeta({ r, abrir, guardar, ojo, tengo }: { r: Receta; abrir: () => void; guardar: () => void; ojo: string[]; tengo: number | null }) {
   return (
-    <li className="group relative grid gap-3 rounded-2xl border bg-card p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary">
+    <li className="tarjeta-receta group relative grid gap-3 rounded-2xl border bg-card p-4 hover:border-primary">
       <button type="button" onClick={abrir} className="grid gap-2 text-left after:absolute after:inset-0 after:rounded-2xl after:content-['']">
         <span className="flex items-center gap-3 text-sm text-muted-foreground">
           <IconoPlatillo nombre={r.nombre} tipo={r.tipo_comida} tamano="md" />{TIPOS[r.tipo_comida]}
@@ -248,7 +248,7 @@ function Detalle({ r, onClose, guardar, editar, borrada, laCocine, ojo, cocinar,
         {r && (
           <>
             <div className="grid gap-2">
-              <IconoPlatillo nombre={r.nombre} tipo={r.tipo_comida} tamano="lg" />
+              <IconoPlatillo key={r.id} nombre={r.nombre} tipo={r.tipo_comida} tamano="lg" className="detalle-platillo" />
               <Etiqueta>{TIPOS[r.tipo_comida]} · por{" "}
                 <button type="button" className="underline underline-offset-2 hover:text-primary" onClick={() => verAutor(r)}>{r.es_mia ? "ti" : r.autor_nombre}</button></Etiqueta>
               <SheetTitle>{r.nombre}</SheetTitle>
@@ -269,10 +269,10 @@ function Detalle({ r, onClose, guardar, editar, borrada, laCocine, ojo, cocinar,
                 <h3 className="text-lg font-bold">Ingredientes</h3>
                 <RecetaExplotada receta={r} />
               </div>
-              <ul className="grid gap-1.5">
-                {r.ingredientes.map((i) => (
-                  <li key={i.ingrediente_id} className="flex justify-between gap-3 border-b border-dashed pb-1.5">
-                    <span>{i.nombre}</span><span className="font-mono text-sm">{cantidad(Number(i.cantidad), i.unidad)}</span>
+              <ul key={r.id} className="cascada grid gap-1.5">
+                {r.ingredientes.map((i, n) => (
+                  <li key={i.ingrediente_id} style={{ "--i": n } as React.CSSProperties} className="flex items-center justify-between gap-3 border-b border-dashed pb-1.5">
+                    <span className="flex items-center gap-2"><Img3D n={imagenIngrediente(i.nombre)} className="size-6" />{i.nombre}</span><span className="font-mono text-sm">{cantidad(Number(i.cantidad), i.unidad)}</span>
                   </li>
                 ))}
               </ul>
@@ -280,9 +280,9 @@ function Detalle({ r, onClose, guardar, editar, borrada, laCocine, ojo, cocinar,
             {r.pasos && (
               <div className="grid gap-2">
                 <h3 className="text-lg font-bold">Cómo se hace</h3>
-                <ol className="grid gap-3">
+                <ol key={r.id} className="cascada grid gap-3">
                   {r.pasos.split("\n").map((p) => p.replace(/^\s*\d+[.)-]?\s*/, "").trim()).filter(Boolean).map((p, i) => (
-                    <li key={i} className="flex gap-3"><span aria-hidden className="grid size-7 shrink-0 place-items-center rounded-full bg-accent font-mono text-sm font-bold text-accent-texto">{i + 1}</span><span className="pt-0.5">{p}</span></li>
+                    <li key={i} className="flex gap-3" style={{ "--i": i + r.ingredientes.length } as React.CSSProperties}><span aria-hidden className="grid size-7 shrink-0 place-items-center rounded-full bg-accent font-mono text-sm font-bold text-accent-texto">{i + 1}</span><span className="pt-0.5">{p}</span></li>
                   ))}
                 </ol>
               </div>

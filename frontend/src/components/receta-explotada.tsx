@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Dialog as D } from "radix-ui";
-import { ArrowsOutSimple, Minus, Plus, X } from "@phosphor-icons/react";
+import { ArrowsOutSimple, CookingPot, Minus, Plus, X } from "@phosphor-icons/react";
 
 import { iconoDe } from "@/components/icono-platillo";
 import { Img3D } from "@/components/img-3d";
@@ -47,12 +47,13 @@ function lugares(n: number) {
 
 export function RecetaExplotada({ receta, className }: { receta: RecetaVista; className?: string }) {
   const [abierta, setAbierta] = React.useState(false);
-  const [suelto, setSuelto] = React.useState(false);
+  const [estado, setEstado] = React.useState<"armado" | "suelto" | "preparando" | "listo">("armado");
+  const suelto = estado === "suelto";
   const [personas, setPersonas] = React.useState(receta.porciones || 1);
   React.useEffect(() => setPersonas(receta.porciones || 1), [receta]);
   React.useEffect(() => {
-    if (!abierta) { setSuelto(false); return; }
-    const t = setTimeout(() => setSuelto(true), 120);
+    if (!abierta) { setEstado("armado"); return; }
+    const t = setTimeout(() => setEstado("suelto"), 120);
     return () => clearTimeout(t);
   }, [abierta]);
 
@@ -60,6 +61,10 @@ export function RecetaExplotada({ receta, className }: { receta: RecetaVista; cl
   const pos = lugares(ings.length);
   const factor = personas / (receta.porciones || 1);
   const [platillo, tono] = iconoDe(receta.nombre, receta.tipo_comida);
+  const preparar = () => {
+    setEstado("preparando");
+    window.setTimeout(() => setEstado((e) => (e === "preparando" ? "listo" : e)), ings.length * 150 + 900);
+  };
 
   return (
     <D.Root open={abierta} onOpenChange={setAbierta}>
@@ -74,13 +79,14 @@ export function RecetaExplotada({ receta, className }: { receta: RecetaVista; cl
             <div className="grid flex-1 gap-0.5">
               <span className="font-mono text-xs font-semibold uppercase tracking-wider text-muted-foreground">Receta desarmada · {ings.length} ingredientes</span>
               <D.Title className="font-display text-2xl font-extrabold leading-tight">{receta.nombre}</D.Title>
+              {estado === "listo" && <span className="entrar-pantalla text-sm font-semibold text-accent-texto" role="status">¡Listo! Todo junto da {receta.nombre.toLowerCase()}.</span>}
               <D.Description className="sr-only">Cada ingrediente de la receta con la cantidad que lleva.</D.Description>
             </div>
             <D.Close asChild><Button variant="ghost" size="icon" aria-label="Cerrar"><X weight="bold" /></Button></D.Close>
           </div>
 
           {/* El diagrama: decorativo para lectores de pantalla, que reciben la lista de abajo. */}
-          <div aria-hidden className={cn("explotada-escena relative mx-auto aspect-square w-full max-w-[26rem]", suelto && "suelto")}>
+          <div aria-hidden className={cn("explotada-escena relative mx-auto aspect-square w-full max-w-[26rem]", estado)}>
             <svg className="absolute inset-0 size-full" viewBox="0 0 100 100" preserveAspectRatio="none">
               {pos.map((p, i) => (
                 <line key={i} x1="50" y1="50" x2={50 + (p.x - 50) * 0.6} y2={50 + (p.y - 50) * 0.6} className="explotada-linea" style={{ transitionDelay: `${120 + i * 45}ms` }} />
@@ -89,9 +95,10 @@ export function RecetaExplotada({ receta, className }: { receta: RecetaVista; cl
             <div className={cn("explotada-centro tono absolute left-1/2 top-1/2 grid size-[30%] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-[28%]", `tono-${tono}`)}>
               <Img3D n={platillo} prioridad className="size-[78%]" />
             </div>
+            {estado === "listo" && <div className="explotada-vapor"><i /><i /><i /></div>}
             {ings.map((i, n) => (
               <div key={i.ingrediente_id} className="explotada-pieza absolute grid w-[22%] justify-items-center gap-0.5 text-center"
-                style={{ "--x": `${pos[n].x}%`, "--y": `${pos[n].y}%`, transitionDelay: `${n * 45}ms` } as React.CSSProperties}>
+                style={{ "--x": `${pos[n].x}%`, "--y": `${pos[n].y}%`, "--i": n, transitionDelay: `${n * (estado === "preparando" ? 150 : 45)}ms` } as React.CSSProperties}>
                 <span className="explotada-burbuja grid aspect-square w-[62%] place-items-center rounded-full">
                   <Img3D n={imagenIngrediente(i.nombre)} prioridad className="size-[80%]" />
                 </span>
@@ -109,7 +116,11 @@ export function RecetaExplotada({ receta, className }: { receta: RecetaVista; cl
               <Button variant="outline" size="icon" aria-label="Más personas" onClick={() => setPersonas((p) => Math.min(20, p + 1))}><Plus /></Button>
               <span className="text-sm font-semibold">{personas === 1 ? "persona" : "personas"}</span>
             </div>
-            <Button variant="ghost" onClick={() => setSuelto((s) => !s)}>{suelto ? "Armar" : "Desarmar"}</Button>
+            <div className="flex gap-2">
+              <Button variant="ghost" onClick={() => setEstado(suelto ? "armado" : "suelto")}>{suelto ? "Armar" : "Desarmar"}</Button>
+              <Button onClick={estado === "suelto" ? preparar : () => { setEstado("suelto"); window.setTimeout(preparar, 700); }} disabled={estado === "preparando"}>
+                <CookingPot weight="fill" />{estado === "listo" ? "Otra vez" : "Ver cómo se prepara"}</Button>
+            </div>
           </div>
 
           <ul className="grid gap-1.5 sm:grid-cols-2 sm:gap-x-6">
