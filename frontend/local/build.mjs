@@ -39,16 +39,19 @@ const parches = {
       .replace("src={`/3d/${n}.webp`}", "src={IMGS_3D[n] || IMGS_3D['fork-and-knife-with-plate']}")
       + `\nconst IMGS_3D: Record<string, string> = ${JSON.stringify(IMGS)};\n` }));
     b.onLoad({ filter: /recetas\/page\.tsx$/ }, (a) => ({ loader: "tsx", contents: fs.readFileSync(a.path, "utf8")
-      .replace("`${location.origin}${location.pathname.replace(/\\/recetas\\/?$/, \"\")}/recetas/?r=${codigo}`", "`${location.href.split(\"#\")[0]}#/recetas/?r=${codigo}`") }));
+      .replace("`${location.origin}${location.pathname.replace(/\\/recetas\\/?$/, \"\")}/recetas/?r=${codigo}`", "`${location.href.split(\"#\")[0]}#/recetas/?r=${codigo}`")
+      .replace('location.search || location.hash.split("?")[1]', 'consultaActual()')
+      + '\nimport { consultaActual } from "' + path.join(AQUI, "shims/router") + '";\n' }));
     b.onLoad({ filter: /yo\/page\.tsx$/ }, (a) => ({ loader: "tsx", contents: fs.readFileSync(a.path, "utf8")
-      .replace('location.search.includes("nuevo")', 'location.hash.includes("nuevo")')
+      .replace('location.search.includes("nuevo")', 'consultaActual().includes("nuevo")')
+      .replace('location.search || location.hash.split("?")[1]', 'consultaActual()')
       .replace('<h2 className="text-2xl font-bold">Tu cuenta</h2>', '<h2 className="text-2xl font-bold">Tus datos</h2><p className="text-sm text-muted-foreground">Todo se guarda en este navegador, sin cuenta. Descarga un respaldo para pasarlo a otro celular o computadora.</p>')
       .replace(/<Button[^\n]*cerrarSesion\(\); router\.replace\("\/"\); \}\}><LogOut \/>Cerrar sesión<\/Button>/,
         '<Button size="lg" type="button" variant="outline" onClick={descargarRespaldo}>Descargar respaldo</Button>'
         + '<Button size="lg" type="button" variant="outline" onClick={async () => { try { await cargarRespaldo(); toast("Listo, cargamos tu respaldo."); setTimeout(() => location.reload(), 600); } catch (e) { toast((e as Error).message); } }}>Cargar respaldo</Button>')
       .replace('"Borramos tu cuenta y todos tus datos."', '"Borramos todos tus datos de este navegador."')
       .replace('"Borrar mi cuenta"', '"Borrar mis datos"')
-      + '\nimport { descargarRespaldo, cargarRespaldo } from "' + path.join(AQUI, "api-local") + '";\n' }));
+      + '\nimport { descargarRespaldo, cargarRespaldo } from "' + path.join(AQUI, "api-local") + '";\nimport { consultaActual } from "' + path.join(AQUI, "shims/router") + '";\n' }));
   },
 };
 const r = await esbuild.build({
@@ -57,7 +60,7 @@ const r = await esbuild.build({
   define: { "process.env.NODE_ENV": '"production"', "process.env.NEXT_PUBLIC_API_URL": '""' }, logLevel: "warning", metafile: true, banner: { js: "var process={env:{NODE_ENV:\"production\"}};" },
 });
 const js = r.outputFiles[0].text;
-for (const t of ['location.hash.includes("nuevo")', '#/recetas/?r=', "Descargar respaldo", "Borrar mis datos"]) if (!js.includes(t)) console.warn("ojo: falta el parche", t);
+for (const t of ['consultaActual().includes("nuevo")', '#/recetas/?r=', "Descargar respaldo", "Borrar mis datos"]) if (!js.includes(t)) console.warn("ojo: falta el parche", t);
 
 // 3) estilos con Tailwind (lee las clases de src/ y de local/)
 const css = path.join(SALIDA, "app.css"), entrada = path.join(SALIDA, "entrada.css");
